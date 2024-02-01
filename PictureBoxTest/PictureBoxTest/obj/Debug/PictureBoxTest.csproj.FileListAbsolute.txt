@@ -1,0 +1,10 @@
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\bin\Debug\PictureBoxTest.exe.config
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\bin\Debug\PictureBoxTest.exe
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\bin\Debug\PictureBoxTest.pdb
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.csproj.AssemblyReference.cache
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.Properties.Resources.resources
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.csproj.GenerateResource.cache
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.csproj.CoreCompileInputs.cache
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.exe
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.pdb
+C:\Users\ralar\Documents\GitHub\badteam\PictureBoxTest\PictureBoxTest\obj\Debug\PictureBoxTest.Form1.resources
