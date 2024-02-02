@@ -1,0 +1,10 @@
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\bin\Debug\GameTest.exe.config
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\bin\Debug\GameTest.exe
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\bin\Debug\GameTest.pdb
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.csproj.AssemblyReference.cache
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.Form1.resources
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.Properties.Resources.resources
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.csproj.GenerateResource.cache
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.csproj.CoreCompileInputs.cache
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.exe
+C:\Users\ralar\Documents\GitHub\badteam\GameTest\GameTest\obj\Debug\GameTest.pdb
