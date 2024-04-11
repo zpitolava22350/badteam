@@ -40,9 +40,9 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.picBox = new System.Windows.Forms.PictureBox();
+            this.vScrollBar = new System.Windows.Forms.VScrollBar();
+            this.hScrollBar = new System.Windows.Forms.HScrollBar();
             this.btnHarp = new System.Windows.Forms.Button();
             this.btnDBass = new System.Windows.Forms.Button();
             this.btnBDrum = new System.Windows.Forms.Button();
@@ -64,7 +64,7 @@
             this.lblVolume = new System.Windows.Forms.Label();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -254,35 +254,32 @@
             this.textBox1.Text = "1, 1, 1";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // pictureBox1
+            // picBox
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.picBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(235, 58);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(512, 211);
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
+            this.picBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.picBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picBox.Location = new System.Drawing.Point(235, 58);
+            this.picBox.Name = "picBox";
+            this.picBox.Size = new System.Drawing.Size(512, 224);
+            this.picBox.TabIndex = 10;
+            this.picBox.TabStop = false;
             // 
-            // vScrollBar1
+            // vScrollBar
             // 
-            this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.vScrollBar1.Location = new System.Drawing.Point(750, 58);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 211);
-            this.vScrollBar1.TabIndex = 13;
+            this.vScrollBar.Location = new System.Drawing.Point(750, 58);
+            this.vScrollBar.Name = "vScrollBar";
+            this.vScrollBar.Size = new System.Drawing.Size(17, 224);
+            this.vScrollBar.TabIndex = 13;
             // 
-            // hScrollBar1
+            // hScrollBar
             // 
-            this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.hScrollBar1.Location = new System.Drawing.Point(235, 272);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(512, 17);
-            this.hScrollBar1.TabIndex = 14;
+            this.hScrollBar.Location = new System.Drawing.Point(235, 285);
+            this.hScrollBar.Name = "hScrollBar";
+            this.hScrollBar.Size = new System.Drawing.Size(512, 17);
+            this.hScrollBar.TabIndex = 14;
             // 
             // btnHarp
             // 
@@ -498,7 +495,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.ClientSize = new System.Drawing.Size(770, 294);
+            this.ClientSize = new System.Drawing.Size(770, 305);
             this.Controls.Add(this.lblVolume);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.volumeBar);
@@ -518,9 +515,9 @@
             this.Controls.Add(this.btnBDrum);
             this.Controls.Add(this.btnDBass);
             this.Controls.Add(this.btnHarp);
-            this.Controls.Add(this.hScrollBar1);
-            this.Controls.Add(this.vScrollBar1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.hScrollBar);
+            this.Controls.Add(this.vScrollBar);
+            this.Controls.Add(this.picBox);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.numericUpDown1);
@@ -540,7 +537,7 @@
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.volumeBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -565,9 +562,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.PictureBox picBox;
+        private System.Windows.Forms.VScrollBar vScrollBar;
+        private System.Windows.Forms.HScrollBar hScrollBar;
         private System.Windows.Forms.Button btnHarp;
         private System.Windows.Forms.Button btnDBass;
         private System.Windows.Forms.Button btnBDrum;
