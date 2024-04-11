@@ -1,0 +1,10 @@
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\bin\Debug\Note block bedrock.exe.config
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\bin\Debug\Note block bedrock.exe
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\bin\Debug\Note block bedrock.pdb
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note block bedrock.csproj.AssemblyReference.cache
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note_block_bedrock.Form1.resources
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note_block_bedrock.Properties.Resources.resources
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note block bedrock.csproj.GenerateResource.cache
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note block bedrock.csproj.CoreCompileInputs.cache
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note block bedrock.exe
+C:\Users\ralar\Documents\GitHub\badteam\Note block bedrock\Note block bedrock\obj\Debug\Note block bedrock.pdb

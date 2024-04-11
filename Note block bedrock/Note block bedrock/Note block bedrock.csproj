@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4147786A-B5B2-4AA8-A793-110802487B32}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Note_block_bedrock</RootNamespace>
+    <AssemblyName>Note block bedrock</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="stuff\images\blocks\bone.png" />
+    <Content Include="stuff\images\blocks\clay.png" />
+    <Content Include="stuff\images\blocks\cobblestone.png" />
+    <Content Include="stuff\images\blocks\dirt.png" />
+    <Content Include="stuff\images\blocks\emerald.png" />
+    <Content Include="stuff\images\blocks\glass.png" />
+    <Content Include="stuff\images\blocks\glowstone.png" />
+    <Content Include="stuff\images\blocks\gold.png" />
+    <Content Include="stuff\images\blocks\hay.png" />
+    <Content Include="stuff\images\blocks\ice.png" />
+    <Content Include="stuff\images\blocks\iron.png" />
+    <Content Include="stuff\images\blocks\planks.png" />
+    <Content Include="stuff\images\blocks\pumpkin.png" />
+    <Content Include="stuff\images\blocks\sand.png" />
+    <Content Include="stuff\images\blocks\soul_sand.png" />
+    <Content Include="stuff\images\blocks\wool.png" />
+    <Content Include="stuff\images\forwardicon.png" />
+    <Content Include="stuff\images\icon.ico" />
+    <Content Include="stuff\images\nothing.png" />
+    <Content Include="stuff\images\playicon.png" />
+    <Content Include="stuff\images\reverseicon.png" />
+    <Content Include="stuff\images\saveicon.png" />
+    <Content Include="stuff\images\stopicon.png" />
+    <Content Include="stuff\sounds\banjo.wav" />
+    <Content Include="stuff\sounds\bdrum.wav" />
+    <Content Include="stuff\sounds\bell.wav" />
+    <Content Include="stuff\sounds\bit.wav" />
+    <Content Include="stuff\sounds\click.wav" />
+    <Content Include="stuff\sounds\cow_bell.wav" />
+    <Content Include="stuff\sounds\dbass.wav" />
+    <Content Include="stuff\sounds\didgeridoo.wav" />
+    <Content Include="stuff\sounds\fizz.wav" />
+    <Content Include="stuff\sounds\flute.wav" />
+    <Content Include="stuff\sounds\fuse.wav" />
+    <Content Include="stuff\sounds\guitar.wav" />
+    <Content Include="stuff\sounds\harp.wav" />
+    <Content Include="stuff\sounds\icechime.wav" />
+    <Content Include="stuff\sounds\iron_xylophone.wav" />
+    <Content Include="stuff\sounds\orb.wav" />
+    <Content Include="stuff\sounds\pling.wav" />
+    <Content Include="stuff\sounds\sdrum.wav" />
+    <Content Include="stuff\sounds\xylobone.wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
