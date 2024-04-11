@@ -490,7 +490,7 @@
             this.lblVolume.Name = "lblVolume";
             this.lblVolume.Size = new System.Drawing.Size(42, 13);
             this.lblVolume.TabIndex = 33;
-            this.lblVolume.Text = "10";
+            this.lblVolume.Text = "10%";
             this.lblVolume.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
