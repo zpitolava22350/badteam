@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Note_block_bedrock {
     public partial class Form1: Form {
-        
+
         public enum ins {
             harp = 0,
             dbass = 1,
@@ -52,6 +52,14 @@ namespace Note_block_bedrock {
             vScrollBar.Size = new Size(vScrollBar.Size.Width, displayHeight * 32);
             picBox.Width = displayWidth*32;
             picBox.Height = displayHeight*32;
+        }
+
+        private void volumeBar_Scroll(object sender, EventArgs e) {
+            lblVolume.Text = volumeBar.Value.ToString() + "%";
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e) {
+
         }
     }
 }

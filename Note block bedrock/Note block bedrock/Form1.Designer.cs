@@ -62,6 +62,7 @@
             this.volumeBar = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.lblVolume = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
@@ -142,6 +143,7 @@
             this.btnPlay.Size = new System.Drawing.Size(15, 15);
             this.btnPlay.TabIndex = 1;
             this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // btnStop
             // 
@@ -468,6 +470,7 @@
             this.volumeBar.TickFrequency = 10;
             this.volumeBar.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.volumeBar.Value = 10;
+            this.volumeBar.Scroll += new System.EventHandler(this.volumeBar_Scroll);
             // 
             // label4
             // 
@@ -489,6 +492,10 @@
             this.lblVolume.TabIndex = 33;
             this.lblVolume.Text = "10%";
             this.lblVolume.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -584,6 +591,7 @@
         private System.Windows.Forms.TrackBar volumeBar;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblVolume;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
