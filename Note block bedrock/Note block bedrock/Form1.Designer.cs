@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +64,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblVolume = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.visualUpdate = new System.Windows.Forms.Timer(this.components);
+            this.noteTimer = new System.Windows.Forms.Timer(this.components);
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
@@ -268,6 +271,8 @@
             this.picBox.Size = new System.Drawing.Size(512, 224);
             this.picBox.TabIndex = 10;
             this.picBox.TabStop = false;
+            this.picBox.Paint += new System.Windows.Forms.PaintEventHandler(this.picBox_Paint);
+            this.picBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picBox_MouseClick);
             // 
             // vScrollBar
             // 
@@ -497,6 +502,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // visualUpdate
+            // 
+            this.visualUpdate.Interval = 16;
+            this.visualUpdate.Tick += new System.EventHandler(this.visualUpdate_Tick);
+            // 
+            // noteTimer
+            // 
+            this.noteTimer.Interval = 33;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -592,6 +606,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblVolume;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Timer visualUpdate;
+        private System.Windows.Forms.Timer noteTimer;
     }
 }
 

@@ -124,46 +124,46 @@
   <data name="menu.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAA1JREFUGFdjYGBgYAAAAAUAAYoz4wAAAAAASUVORK5CYII=
+        vAAADrwBlbxySQAAAA1JREFUGFdjYGBgYAAAAAUAAYoz4wAAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="fileToolStripMenuItem.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAA1JREFUGFdjYGBgYAAAAAUAAYoz4wAAAAAASUVORK5CYII=
+        vAAADrwBlbxySQAAAA1JREFUGFdjYGBgYAAAAAUAAYoz4wAAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="btnSave.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAADtJREFUKFNj+E8AMMAAMgcbGy4GZwABiI0MoMIQNcgCuACNFYJobACrQhCNDFDk
+        vAAADrwBlbxySQAAADtJREFUKFNj+E8AMMAAMgcbGy4GZwABiI0MoMIQNcgCuACNFYJobACrQhCNDFDk
         UDhoAEUORBAG//8DANYPxznTJHliAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="btnPlay.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAEBJREFUKFOlzUEKACAMA8H8/9MKYW2VVjw4x22gGtALu0Cu9qOXIKUueglSP1y8
+        vAAADrwBlbxySQAAAEBJREFUKFOlzUEKACAMA8H8/9MKYW2VVjw4x22gGtALu0Cu9qOXIKUueglSP1y8
         xN/QF5DO176AlOiBXHG/D0yaYqWPcbu/V/QAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="btnStop.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAABpJREFUKFNj+E8kACtkIABGFeIFcIWEwf//AOT4j3GwpSxCAAAAAElFTkSuQmCC
+        vAAADrwBlbxySQAAABpJREFUKFNj+E8kACtkIABGFeIFcIWEwf//AOT4j3GwpSxCAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="btnReverse.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAERJREFUKFOdijESACAIw/j/p9X2CtYTFzM1gfhiCClR2i3F49VqLHJfzQOAAymh
+        vAAADrwBlbxySQAAAERJREFUKFOdijESACAIw/j/p9X2CtYTFzM1gfhiCClR2i3F49VqLHJfzQOAAymh
         dxFISbkfcneNpHjsGkEAUqJ0Pr6JmKJ2f4HscDf9AAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="btnForward.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAEFJREFUKFONitEKACAIxPz/ny5uXKEg5V500xizjBWcSiPmKbr2fbh7jkIurIB3
+        vAAADrwBlbxySQAAAEFJREFUKFONitEKACAIxPz/ny5uXKEg5V500xizjBWcSiPmKbr2fbh7jkIurIB3
         UVgBz/HsXXsec0OEFZxKGxKxAZ+jf4H7qV0zAAAAAElFTkSuQmCC
 </value>
   </data>
@@ -318,6 +318,12 @@
   </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>102, 17</value>
+  </metadata>
+  <metadata name="visualUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>241, 17</value>
+  </metadata>
+  <metadata name="noteTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>363, 17</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
