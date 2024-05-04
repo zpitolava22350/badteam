@@ -34,25 +34,28 @@ namespace Note_block_bedrock {
         SolidBrush brushLightGray = new SolidBrush(Color.FromArgb(200, 200, 200));
         SolidBrush brushGray = new SolidBrush(Color.FromArgb(60, 60, 60));
 
+        Note emptyNote = new Note(ins.none, 0);
+
         StringFormat centered = new StringFormat();
 
         public enum ins {
-            harp = 0,
-            dbass = 1,
-            bdrum = 2,
-            snare = 3,
-            click = 4,
-            guitar = 5,
-            flute = 6,
-            bell = 7,
-            chime = 8,
-            xyl = 9,
-            ironxyl = 10,
-            cowbell = 11,
-            didgeridoo = 12,
-            bit = 13,
-            banjo = 14,
-            pling = 15
+            none = 0,
+            harp = 1,
+            dbass = 2,
+            bdrum = 3,
+            snare = 4,
+            click = 5,
+            guitar = 6,
+            flute = 7,
+            bell = 8,
+            chime = 9,
+            xyl = 10,
+            ironxyl = 11,
+            cowbell = 12,
+            didgeridoo = 13,
+            bit = 14,
+            banjo = 15,
+            pling = 16
         }
 
         ins instrumentSelected = ins.harp;
@@ -64,6 +67,24 @@ namespace Note_block_bedrock {
             InitializeComponent();
             centered.Alignment = StringAlignment.Center;
             centered.LineAlignment = StringAlignment.Center;
+        }
+
+        /// <summary>
+        /// Returns a Note object if it exists, otherwise returns null
+        /// </summary>
+        /// <param name="layer">The layer (or Y)</param>
+        /// <param name="x">The X value</param>
+        /// <returns>Note object</returns>
+        private Note GetNote(int layer, int x) {
+            if (layer < notes.Count) {
+                if (notes[layer].ContainsKey(x)) {
+                    return notes[layer][x];
+                } else {
+                    return emptyNote;
+                }
+            } else {
+                return emptyNote;
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e) {
