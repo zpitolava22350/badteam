@@ -1,5 +1,5 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.01, 80 );
+const camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 0.01, 80 );
 const renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -43,24 +43,23 @@ var player = {
   onGround: false
 }
 
+var textures = {
+  grass: new THREE.TextureLoader().load(`https://cdn.statically.io/gh/zpitolava22350/badteam/main/assets/images/grass.png`)
+}
+
 var blocks = [];
 
-window.onload = function(e){
-    blocks.push(new Rect(0,-10,0,20,1,20,"grass",1));
-}
-
-/*
 function setup(){
-  //var cnv = createCanvas(window.innerWidth, window.innerHeight);
-  //cnv.position(0,0);
-  //pixelDensity(1);
-  //noSmooth();
-  //frameRate(9999999);
+  var cnv = createCanvas(window.innerWidth, window.innerHeight);
+  cnv.position(0,0);
+  pixelDensity(1);
+  noSmooth();
+  frameRate(9999999);
 
-  //console.log("aa")
+  console.log("aa")
   blocks.push(new Rect(0,-10,0,20,1,20,"grass",1));
 }
-*/
+
 
 function draw(){
 

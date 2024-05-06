@@ -15,7 +15,7 @@ class Rect{
 
     for(let f=0; f<6; f++){
 
-      texture = new THREE.TextureLoader().load(`assets/images/${this.tex}.png`);
+      texture = new THREE.TextureLoader().load(`https://cdn.statically.io/gh/zpitolava22350/badteam/main/assets/images/${this.tex}.png`);
       
       texture.magFilter = THREE.NearestFilter;
       texture.minFilter = THREE.LinearMipmapLinearFilter;
