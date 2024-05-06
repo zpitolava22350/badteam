@@ -57,7 +57,7 @@ function setup(){
   frameRate(9999999);
 
   console.log("aa")
-  blocks.push(new Rect(0,-10,0,20,1,20,"grass",1));
+  blocks.push(new Rect(0,-10,0,20,1,20,textures.grass,1));
 }
 
 
