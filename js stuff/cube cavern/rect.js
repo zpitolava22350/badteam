@@ -35,6 +35,13 @@ class Rect{
     }
 
     this.cube = new THREE.Mesh(geometry, material);
+    
+    for(let m=0; m<6; m++){
+      material[m].dispose();
+    }
+    texture.dispose();
+    geometry.dispose();
+    
     //this.cube.castShadow = true;
     //this.cube.receiveShadow = true;
     

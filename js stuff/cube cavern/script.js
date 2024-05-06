@@ -34,9 +34,24 @@ const gravity = 0.000024;
 const jumpHeight = 0.009;
 const dampening = 0.012;
 
-var player = {
+var genPos = {
   x: 0,
   y: 0,
+  z: 0,
+  r: 0
+}
+
+var area = {
+  name: "hub",
+  boss: false
+};
+
+console.log(area);
+console.log(area.boss);
+
+var player = {
+  x: 0,
+  y: 2,
   z: 0,
   xVel: 0,
   yVel: 0,
@@ -59,9 +74,12 @@ function setup(){
   noSmooth();
   frameRate(9999999);
 
-  console.log("aa")
-  blocks.push(new Rect(0,-10,0,20,1,20,"grass",1));
-  blocks.push(new Rect(0,-8,3,3,2,1,"grass",1));
+  formatMaps();
+
+  for(let i=0; i<hubRoom.blocks.length; i++){
+    blocks.push(new Rect(hubRoom.blocks[i].x, hubRoom.blocks[i].y, hubRoom.blocks[i].z, hubRoom.blocks[i].dx, hubRoom.blocks[i].dy, hubRoom.blocks[i].dz, hubRoom.blocks[i].tex, hubRoom.blocks[i].wrap))
+  }
+
 }
 
 
@@ -179,6 +197,100 @@ function windowResized() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+function keyPressed(){
+  switch(keyCode){
+    case 80:
+      enterDungeon("yellow");
+      break;
+  }
+}
+
 function mousePressed(){
   requestPointerLock();
+}
+
+function enterDungeon(type){
+  switch(type){
+    case "yellow":
+      clearBlocks();
+      generateDungeon(3, "grass");
+      break;
+  }
+  player.x = 0;
+  player.y = 2;
+  player.z = 0;
+  player.xVel = 0;
+  player.yVel = 0;
+  player.zVel = 0;
+}
+
+function generateDungeon(size, tex){
+  for(let i=0; i<firstRoom.blocks.length; i++){
+    blocks.push(new Rect(firstRoom.blocks[i].x, firstRoom.blocks[i].y, firstRoom.blocks[i].z, firstRoom.blocks[i].dx, firstRoom.blocks[i].dy, firstRoom.blocks[i].dz, tex, firstRoom.blocks[i].wrap));
+  }
+
+  genPos.z -= 31;
+
+  for(let r=0; r<size; r++){
+    let room = Math.floor(Math.random()*rooms.length);
+    for(let b=0; b<rooms[room].blocks.length; b++){
+      switch(genPos.r){
+        case 0:
+          blocks.push(new Rect(rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
+          break;
+        case 1:
+          blocks.push(new Rect(-rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
+          break;
+        case 2:
+          blocks.push(new Rect(-rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
+          break;
+        case 3:
+          blocks.push(new Rect(rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
+          break;
+          break;
+      }
+    }
+    switch(rooms[room].exit){
+      case "left":
+        genPos.r--;
+        if(genPos.r === -1){
+          genPos.r = 3;
+        }
+
+        break;
+      case "right":
+        genPos.r++;
+        if(genPos.r === 4){
+          genPos.r = 0;
+        }
+        break;
+    }
+    switch(genPos.r){
+      case 0:
+        genPos.z -= 31;
+        break;
+      case 1:
+        genPos.x += 31;
+        break;
+      case 2:
+        genPos.z += 31;
+        break;
+      case 3:
+        genPos.x -= 31;
+    }
+  }
+}
+
+function clearBlocks(){
+  for(let b=0; b<blocks.length; b++){
+    scene.remove(blocks[b].cube);
+    blocks[b].cube.geometry.dispose();
+    if (blocks[b].cube.material instanceof THREE.Material) {
+      blocks[b].cube.material.dispose();
+    } else if (Array.isArray(blocks[b].cube.material)) {
+      blocks[b].cube.material.forEach(material => material.dispose());
+    }
+    blocks[b].cube = null;
+  }
+  blocks.length = 0;
 }
