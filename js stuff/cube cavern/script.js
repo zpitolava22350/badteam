@@ -58,6 +58,7 @@ function setup(){
 
   console.log("aa")
   blocks.push(new Rect(0,-10,0,20,1,20,textures.grass,1));
+  blocks.push(new Rect(0,-5,3,3,2,1,textures.grass,1));
 }
 
 
