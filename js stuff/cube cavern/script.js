@@ -247,7 +247,6 @@ function generateDungeon(size, tex){
         case 3:
           blocks.push(new Rect(rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
           break;
-          break;
       }
     }
     switch(rooms[room].exit){
