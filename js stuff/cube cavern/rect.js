@@ -21,13 +21,13 @@ class Rect{
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       if(f === 0 || f === 1){
-        texture.repeat.set( (this.dz / this.wrap), (this.dx / this.wrap) );
+        texture.repeat.set( (this.dz / this.wrap), (this.dy / this.wrap) );
       }
       if(f === 2 || f === 3){
-        //texture.repeat.set( (this.dx / this.wrap), (this.dz / this.wrap) );
+        texture.repeat.set( (this.dx / this.wrap), (this.dz / this.wrap) );
       }
       if(f === 4 || f === 5){
-        //texture.repeat.set( (this.dx / this.wrap), (this.dy / this.wrap) );
+        texture.repeat.set( (this.dx / this.wrap), (this.dy / this.wrap) );
       }
       
       material.push(new THREE.MeshStandardMaterial( { map: texture, side: THREE.DoubleSide, shadowSide:THREE.FrontSide} ));
