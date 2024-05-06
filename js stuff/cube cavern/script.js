@@ -1,5 +1,5 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 0.01, 80 );
+const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.01, 80 );
 const renderer = new THREE.WebGLRenderer({antialias:true});
 //renderer.shadowMap.enabled = true;
 //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -29,7 +29,7 @@ const halfHeight = playerHeight * 0.5;
 const halfWidth = playerWidth * 0.5;
 const stepHeight = 0.6;
 
-const speed = 0.00007;
+const speed = 0.00017;
 const gravity = 0.000024;
 const jumpHeight = 0.009;
 const dampening = 0.012;
@@ -229,7 +229,10 @@ function generateDungeon(size, tex){
     blocks.push(new Rect(firstRoom.blocks[i].x, firstRoom.blocks[i].y, firstRoom.blocks[i].z, firstRoom.blocks[i].dx, firstRoom.blocks[i].dy, firstRoom.blocks[i].dz, tex, firstRoom.blocks[i].wrap));
   }
 
-  genPos.z -= 31;
+  genPos.x = 0;
+  genPos.y = 0;
+  genPos.z = -31;
+  genPos.r = 0;
 
   for(let r=0; r<size; r++){
     let room = Math.floor(Math.random()*rooms.length);
@@ -239,27 +242,26 @@ function generateDungeon(size, tex){
           blocks.push(new Rect(rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
           break;
         case 1:
-          blocks.push(new Rect(-rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
+          blocks.push(new Rect(-rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
           break;
         case 2:
           blocks.push(new Rect(-rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
           break;
         case 3:
-          blocks.push(new Rect(rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
+          blocks.push(new Rect(rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
           break;
       }
     }
     switch(rooms[room].exit){
       case "left":
         genPos.r--;
-        if(genPos.r === -1){
+        if(genPos.r <= -1){
           genPos.r = 3;
         }
-
         break;
       case "right":
         genPos.r++;
-        if(genPos.r === 4){
+        if(genPos.r >= 4){
           genPos.r = 0;
         }
         break;
