@@ -13,8 +13,9 @@ class Rect{
     let texture;
 
     for(let f=0; f<6; f++){
+      texture = null
 
-      texture = tex;
+      texture = textures[tex].clone();
       
       texture.magFilter = THREE.NearestFilter;
       texture.minFilter = THREE.LinearMipmapLinearFilter;

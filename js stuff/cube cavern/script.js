@@ -1,17 +1,20 @@
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 0.01, 80 );
 const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.shadowMap.autoUpdate = false;
+//renderer.shadowMap.enabled = true;
+//renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+//renderer.shadowMap.autoUpdate = false;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild( renderer.domElement );
 
 scene.background = new THREE.Color( 0xa0c8ff );
 
-const ambientLight = new THREE.AmbientLight( 0xffffff, 0.8 );
+const ambientLight = new THREE.AmbientLight( 0xffffff, 0.5 );
 scene.add( ambientLight );
+
+const playerPointLight = new THREE.PointLight( 0xffffff, 0.2 );
+scene.add( playerPointLight );
 
 function animate(){
   requestAnimationFrame(animate);
@@ -57,8 +60,8 @@ function setup(){
   frameRate(9999999);
 
   console.log("aa")
-  blocks.push(new Rect(0,-10,0,20,1,20,textures.grass,1));
-  blocks.push(new Rect(0,-5,3,3,2,1,textures.grass,1));
+  blocks.push(new Rect(0,-10,0,20,1,20,"grass",1));
+  blocks.push(new Rect(0,-8,3,3,2,1,"grass",1));
 }
 
 
@@ -166,6 +169,7 @@ function draw(){
   camera.position.x = player.x;
   camera.position.y = player.y + (halfHeight/2);
   camera.position.z = player.z;
+  playerPointLight.position.set( player.x, player.y + (halfHeight/2), player.z );
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   
