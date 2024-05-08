@@ -31,16 +31,10 @@ class Rect{
         texture.repeat.set( (this.dx / this.wrap), (this.dy / this.wrap) );
       }
       
-      material.push(new THREE.MeshStandardMaterial( { map: texture, side: THREE.DoubleSide, shadowSide:THREE.FrontSide} ));
+      material.push(new THREE.MeshStandardMaterial( { map: texture, side: THREE.FrontSide } ));
     }
 
     this.cube = new THREE.Mesh(geometry, material);
-    
-    for(let m=0; m<6; m++){
-      material[m].dispose();
-    }
-    texture.dispose();
-    geometry.dispose();
     
     //this.cube.castShadow = true;
     //this.cube.receiveShadow = true;
@@ -51,6 +45,23 @@ class Rect{
     
     scene.add(this.cube);
     
+    for(let m=0; m<6; m++){
+      material[m].dispose();
+    }
+    texture.dispose();
+    geometry.dispose();
+    
+  }
+
+  unload(){
+    scene.remove(this.cube);
+    this.cube.geometry.dispose();
+    if (this.cube.material instanceof THREE.Material) {
+        this.cube.material.dispose();
+    } else if (Array.isArray(this.cube.material)) {
+        this.cube.material.forEach(material => material.dispose());
+    }
+    delete this.cube;
   }
 
   collideFloor(){

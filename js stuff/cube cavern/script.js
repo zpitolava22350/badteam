@@ -29,7 +29,7 @@ const halfHeight = playerHeight * 0.5;
 const halfWidth = playerWidth * 0.5;
 const stepHeight = 0.6;
 
-const speed = 0.00017;
+const speed = 0.00007;
 const gravity = 0.000024;
 const jumpHeight = 0.009;
 const dampening = 0.012;
@@ -46,9 +46,6 @@ var area = {
   boss: false
 };
 
-console.log(area);
-console.log(area.boss);
-
 var player = {
   x: 0,
   y: 2,
@@ -58,14 +55,22 @@ var player = {
   zVel: 0,
   r: 0,
   t: 0,
-  onGround: false
+  onGround: false,
+  inventory: {
+    slotSelected: 0,
+    slot: [null, null, null],
+    back: null,
+    feet: null
+  }
 }
 
-var textures = {
-  grass: new THREE.TextureLoader().load(`https://cdn.statically.io/gh/zpitolava22350/badteam/main/assets/images/grass.png`)
-}
+var textures = {};
 
 var blocks = [];
+
+var items = [];
+var enemies = [];
+var craftingTables = [];
 
 function setup(){
   var cnv = createCanvas(window.innerWidth, window.innerHeight);
@@ -74,14 +79,24 @@ function setup(){
   noSmooth();
   frameRate(9999999);
 
+  let texToLoad = ["grass", "stone", "brick", "gray", "log", "smoothstone", "dark_gray", "orange"];
+
+  for(let i=0; i<texToLoad.length; i++){
+    textures[texToLoad[i]] = new THREE.TextureLoader().load(`https://cdn.statically.io/gh/zpitolava22350/badteam/main/assets/images/${texToLoad[i]}.png`);
+  }
+
   formatMaps();
 
   for(let i=0; i<hubRoom.blocks.length; i++){
     blocks.push(new Rect(hubRoom.blocks[i].x, hubRoom.blocks[i].y, hubRoom.blocks[i].z, hubRoom.blocks[i].dx, hubRoom.blocks[i].dy, hubRoom.blocks[i].dz, hubRoom.blocks[i].tex, hubRoom.blocks[i].wrap))
   }
 
-}
+  craftingTables.push(new CraftingTable(0, 1, -3));
 
+  items.push(new Item("Stick", 1, 1, -3));
+  items.push(new Item("Stick", 2, 1, -3));
+
+}
 
 function draw(){
 
@@ -159,9 +174,16 @@ function draw(){
   for(let i=0; i<blocks.length; i++){
     blocks[i].collideFloor();
   }
+  for(let i=0; i<craftingTables.length; i++){
+    craftingTables[i].collideFloor();
+  }
   for(let i=0; i<blocks.length; i++){
     blocks[i].collide(i);
   }
+  for(let i=0; i<craftingTables.length; i++){
+    craftingTables[i].collide(i);
+  }
+  
 
   if(player.xVel != 0){
     player.x += (player.xVel) * deltaTime;
@@ -184,6 +206,8 @@ function draw(){
     }
   }
 
+  displayHud();
+
   camera.position.x = player.x;
   camera.position.y = player.y + (halfHeight/2);
   camera.position.z = player.z;
@@ -195,6 +219,7 @@ function draw(){
 
 function windowResized() {
   renderer.setSize(window.innerWidth, window.innerHeight);
+  resizeCanvas(window.innerWidth, window.innerHeight);
 }
 
 function keyPressed(){
@@ -202,12 +227,106 @@ function keyPressed(){
     case 80:
       enterDungeon("yellow");
       break;
+    case 69:
+      let ray = raycast();
+      if(Object.keys(ray.object.userData).length >= 1){
+        switch(ray.object.userData.type){
+          case "item":
+            pickupItem(ray.object.userData.index);
+            break;
+        }
+      }
   }
+
+  if(keyCode >= 49 && keyCode <= 57){
+    if(player.inventory.slot.length >= keyCode-48){
+      player.inventory.slotSelected = keyCode-49;
+    }
+  }
+}
+
+function pickupItem(itemIndex){
+  if(items[itemIndex].model.userData.slot === "hand"){
+    if(player.inventory.slot[player.inventory.slotSelected] === null){
+      player.inventory.slot[player.inventory.slotSelected] = items[itemIndex];
+      itemRemove(itemIndex);
+      return true;
+    }
+    for(let s=0; s<player.inventory.slot.length; s++){
+      if(player.inventory.slot[s] === null){
+        player.inventory.slot[s] = items[itemIndex];
+        itemRemove(itemIndex);
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 function mousePressed(){
   requestPointerLock();
 }
+
+function displayHud(){
+
+  let clr;
+
+  clear();
+
+  fill(0);
+  stroke(0);
+  strokeWeight(2);
+
+  line(width/2, height/2, (width/2)-10, (height/2)+10);
+  line(width/2, height/2, (width/2)+10, (height/2)+10);
+  noStroke();
+
+  clr = color(50);
+  clr.setAlpha(150);
+
+  fill(clr);
+
+  rect(window.innerWidth-(player.inventory.slot.length*110)-10, window.innerHeight-120, player.inventory.slot.length*110+10, 120);
+
+  textAlign(CENTER, CENTER);
+
+  for(let s=player.inventory.slot.length-1; s>=0; s--){
+    let slot = player.inventory.slot.length-1-s;
+    fill(200);
+    if(slot === player.inventory.slotSelected){
+      rect(window.innerWidth-(s*110)-110, window.innerHeight-110, 100, 100);
+    } else {
+      rect(window.innerWidth-(s*110)-95, window.innerHeight-95, 70, 70);
+    }
+    fill(0);
+    if(player.inventory.slot[slot] === null){
+      text("Empty", window.innerWidth-(s*110)-110, window.innerHeight-110, 100, 100);
+    } else {
+      text(player.inventory.slot[slot].item, window.innerWidth-(s*110)-110, window.innerHeight-110, 100, 100);
+    }
+  }
+
+}
+
+function itemRemove(itemIndex){
+  items[itemIndex].unload();
+  items.splice(itemIndex, 1);
+  updateItemIndexes();
+}
+
+function updateItemIndexes(){
+  for(let i=0; i<items.length; i++){
+    items[i].model.userData.index = i;
+  }
+}
+
+/*
+function updateEnemyIndexes(){
+  for(let e=0; e<enemies.length; e++){
+    enemies[e].model.userData.index = e;
+  }
+}
+*/
 
 function enterDungeon(type){
   switch(type){
