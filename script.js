@@ -7,7 +7,7 @@ buttons.forEach(button => {
     temp.innerText = button.innerText;
     switch(button.innerText){
       case "Cube Cavern":
-        break:
+        break;
     }
   });
 
