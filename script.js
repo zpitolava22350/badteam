@@ -5,10 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log('Button:', button);
     button.addEventListener('mouseenter', () => {
       button.style.transform = 'translateX(100px)';
-      let temp = document.getElementById("title");
-      console.log(button.innerText);
-      console.log(temp.innerText);
-      temp.innerText = button.innerText;
+      document.getElementById("title").innerText = document.querySelector("button").innerText
     });
   
     button.addEventListener('mouseleave', () => {
