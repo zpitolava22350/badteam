@@ -1,6 +1,7 @@
 const buttons = document.querySelectorAll('.sliding-button');
 
 buttons.forEach(button => {
+  console.log('Button:', button);
   button.addEventListener('mouseenter', () => {
     button.style.transform = 'translateX(100px)';
     let temp = document.getElementById("title");
