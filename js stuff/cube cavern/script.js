@@ -46,6 +46,10 @@ var area = {
   boss: false
 };
 
+var hud = {
+  
+}
+
 var player = {
   x: 0,
   y: 2,
