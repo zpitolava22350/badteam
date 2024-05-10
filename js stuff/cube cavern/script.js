@@ -47,7 +47,11 @@ var area = {
 };
 
 var hud = {
-  
+  cursor: {
+    x:0,
+    y:0
+  },
+  menu: "none"
 }
 
 var player = {
@@ -145,29 +149,56 @@ function draw(){
       break;
   }
 
-  camera.rotateX(-player.t);
-  camera.rotateY(-player.r);
+  if(keyIsDown(81)){
+    if(hud.menu === "none"){
+      hud.cursor.x = window.innerWidth/2;
+      hud.cursor.y = window.innerHeight/2;
+      hud.menu = "drop";
+    }
+    hud.cursor.x += movedX;
+    hud.cursor.y += movedY;
+    if(hud.cursor.x >= (window.innerWidth/2) - 145 && hud.cursor.x <= (window.innerWidth/2) - 55 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45){
+      //hand
+      console.log("hand");
+    }
+    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) - 145 && hud.cursor.y <= (window.innerHeight/2) - 55){
+      //head
+      console.log("head");
+    }
+    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) + 55 && hud.cursor.y <= (window.innerHeight/2) + 145){
+      //feet
+      console.log("feet");
+    }
+    if(hud.cursor.x >= (window.innerWidth/2) + 55 && hud.cursor.x <= (window.innerWidth/2) + 145 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45){
+      //back
+      console.log("back");
+    }
+  } else {
+    hud.menu = "none";
+    camera.rotateX(-player.t);
+    camera.rotateY(-player.r);
 
-  let rotateCam = (round(-movedX, 5) * 0.003);
-  let tiltCam = (round(movedY, 5) * 0.003);
+    let rotateCam = (round(-movedX, 5) * 0.003);
+    let tiltCam = (round(movedY, 5) * 0.003);
 
-  player.r += (rotateCam*deltaTime)/8;
-  player.t -= (tiltCam*deltaTime)/8;
+    player.r += (rotateCam*deltaTime)/8;
+    player.t -= (tiltCam*deltaTime)/8;
 
-  if (player.t >= 1.45) {
-    player.t = 1.45;
-  } else if (player.t <= -1.45) {
-    player.t = -1.45;
+    if (player.t >= 1.45) {
+      player.t = 1.45;
+    } else if (player.t <= -1.45) {
+      player.t = -1.45;
+    }
+
+    if(player.r > Math.PI){
+      player.r -= Math.PI*2;
+    } else if(player.r < -Math.PI){
+      player.r += Math.PI*2;
+    }
+
+    camera.rotateY(player.r);
+    camera.rotateX(player.t);
   }
-
-  if(player.r > Math.PI){
-    player.r -= Math.PI*2;
-  } else if(player.r < -Math.PI){
-    player.r += Math.PI*2;
-  }
-
-  camera.rotateY(player.r);
-  camera.rotateX(player.t);
 
   if(keyIsDown(32) && player.onGround){
     player.yVel += jumpHeight;
@@ -293,6 +324,7 @@ function displayHud(){
   rect(window.innerWidth-(player.inventory.slot.length*110)-10, window.innerHeight-120, player.inventory.slot.length*110+10, 120);
 
   textAlign(CENTER, CENTER);
+  textSize(16);
 
   for(let s=player.inventory.slot.length-1; s>=0; s--){
     let slot = player.inventory.slot.length-1-s;
@@ -308,6 +340,36 @@ function displayHud(){
     } else {
       text(player.inventory.slot[slot].item, window.innerWidth-(s*110)-110, window.innerHeight-110, 100, 100);
     }
+  }
+
+  clr = color(50);
+  clr.setAlpha(180);
+  fill(clr);
+  textSize(24);
+
+  if(hud.menu === "drop"){
+    rect((window.innerWidth/2) - 150, (window.innerHeight/2) - 150, 300, 300);
+    fill(200);
+    rect((window.innerWidth/2) - 145, (window.innerHeight/2) - 45, 90, 90);
+    rect((window.innerWidth/2) - 45, (window.innerHeight/2) - 145, 90, 90);
+    rect((window.innerWidth/2) - 45, (window.innerHeight/2) + 55, 90, 90);
+    rect((window.innerWidth/2) + 55, (window.innerHeight/2) - 45, 90, 90);
+
+    fill(0);
+    textSize(24);
+    text("Hand", (window.innerWidth/2) - 145, (window.innerHeight/2) - 45, 90, 90);
+    text("Head", (window.innerWidth/2) - 45, (window.innerHeight/2) - 145, 90, 90);
+    text("Feet", (window.innerWidth/2) - 45, (window.innerHeight/2) + 55, 90, 90);
+    text("Back", (window.innerWidth/2) + 55, (window.innerHeight/2) - 45, 90, 90);
+  }
+
+  if(hud.menu != "none"){
+    clr = color(0);
+    clr.setAlpha(150);
+    fill(clr);
+    stroke(0);
+    strokeWeight(1);
+    circle(hud.cursor.x, hud.cursor.y, 6);
   }
 
 }
