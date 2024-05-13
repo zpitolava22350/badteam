@@ -17,11 +17,21 @@ class CraftingTable{
     }
 
     check(){
-        let itemsInside = [];
+        let itemsInside = {
+            indexes: []
+        };
+        let itemCount = 0;
         for(let i=0; i<items.length; i++){
             if(items[i].x > this.x-0.3 && items[i].x < this.x + 0.3 && items[i].z > this.z-0.3 && items[i].z < this.z + 0.3 && items[i].y > this.y-0.3 && items[i].y < this.y){
-
+                itemsInside[items[i].item] = true;
+                itemsInside.indexes.push(i);
+                itemCount++;
             }
+        }
+
+        if(itemsInside.Stick && itemsInside.Rock && itemCount === 2){
+            itemsRemove(itemsInside.indexes);
+            items.push(new Item("Dagger", this.x, this.y, this.z));
         }
     }
 

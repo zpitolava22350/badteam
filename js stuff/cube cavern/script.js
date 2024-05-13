@@ -46,6 +46,10 @@ var area = {
   boss: false
 };
 
+var keyState = {
+  q: false
+}
+
 var hud = {
   cursor: {
     x:0,
@@ -67,6 +71,7 @@ var player = {
   inventory: {
     slotSelected: 0,
     slot: [null, null, null],
+    head: null,
     back: null,
     feet: null
   }
@@ -102,7 +107,7 @@ function setup(){
   craftingTables.push(new CraftingTable(0, 1, -3));
 
   items.push(new Item("Stick", 1, 1, -3));
-  items.push(new Item("Stick", 2, 1, -3));
+  items.push(new Item("Rock", 2, 1, -3));
 
 }
 
@@ -149,7 +154,7 @@ function draw(){
       break;
   }
 
-  if(keyIsDown(81)){
+  if(keyIsDown(81) && !keyState.q){
     if(hud.menu === "none"){
       hud.cursor.x = window.innerWidth/2;
       hud.cursor.y = window.innerHeight/2;
@@ -157,21 +162,45 @@ function draw(){
     }
     hud.cursor.x += movedX;
     hud.cursor.y += movedY;
-    if(hud.cursor.x >= (window.innerWidth/2) - 145 && hud.cursor.x <= (window.innerWidth/2) - 55 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45){
+    if(hud.cursor.x >= (window.innerWidth/2) - 145 && hud.cursor.x <= (window.innerWidth/2) - 55 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45 && hud.menu != "none"){
       //hand
-      console.log("hand");
+      if(player.inventory.slot[player.inventory.slotSelected] != null){
+        items.push(new Item(player.inventory.slot[player.inventory.slotSelected].item, player.x, player.y, player.z));
+        player.inventory.slot[player.inventory.slotSelected] = null;
+      }
+      hud.menu = "none";
+      keyState.q = true;
+      updateCraftingTables();
     }
-    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) - 145 && hud.cursor.y <= (window.innerHeight/2) - 55){
+    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) - 145 && hud.cursor.y <= (window.innerHeight/2) - 55 && hud.menu != "none"){
       //head
-      console.log("head");
+      if(player.inventory.head != null){
+        items.push(new Item(player.inventory.head.item, player.x, player.y, player.z));
+        player.inventory.head = null;
+      }
+      hud.menu = "none";
+      keyState.q = true;
+      updateCraftingTables();
     }
-    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) + 55 && hud.cursor.y <= (window.innerHeight/2) + 145){
+    if(hud.cursor.x >= (window.innerWidth/2) - 45 && hud.cursor.x <= (window.innerWidth/2) + 45 && hud.cursor.y >= (window.innerHeight/2) + 55 && hud.cursor.y <= (window.innerHeight/2) + 145 && hud.menu != "none"){
       //feet
-      console.log("feet");
+      if(player.inventory.feet != null){
+        items.push(new Item(player.inventory.feet.item, player.x, player.y, player.z));
+        player.inventory.feet = null;
+      }
+      hud.menu = "none";
+      keyState.q = true;
+      updateCraftingTables();
     }
-    if(hud.cursor.x >= (window.innerWidth/2) + 55 && hud.cursor.x <= (window.innerWidth/2) + 145 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45){
+    if(hud.cursor.x >= (window.innerWidth/2) + 55 && hud.cursor.x <= (window.innerWidth/2) + 145 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45 && hud.menu != "none"){
       //back
-      console.log("back");
+      if(player.inventory.back != null){
+        items.push(new Item(player.inventory.back.item, player.x, player.y, player.z));
+        player.inventory.back = null;
+      }
+      hud.menu = "none";
+      keyState.q = true;
+      updateCraftingTables();
     }
   } else {
     hud.menu = "none";
@@ -280,6 +309,14 @@ function keyPressed(){
   }
 }
 
+function keyReleased(){
+  switch(keyCode){
+    case 81:
+      keyState.q = false;
+      break;
+  }
+}
+
 function pickupItem(itemIndex){
   if(items[itemIndex].model.userData.slot === "hand"){
     if(player.inventory.slot[player.inventory.slotSelected] === null){
@@ -374,10 +411,25 @@ function displayHud(){
 
 }
 
+function updateCraftingTables(){
+  for(let c=0; c<craftingTables.length; c++){
+    craftingTables[c].check();
+  }
+}
+
 function itemRemove(itemIndex){
   items[itemIndex].unload();
   items.splice(itemIndex, 1);
   updateItemIndexes();
+}
+
+function itemsRemove(indexArray){
+  indexArray.sort((a, b) => a - b);
+  let lgth = indexArray.length;
+  for(let k=lgth-1; k>=0; k--){
+    itemRemove(indexArray[k]);
+    indexArray.splice(k, 1);
+  }
 }
 
 function updateItemIndexes(){
@@ -407,64 +459,6 @@ function enterDungeon(type){
   player.xVel = 0;
   player.yVel = 0;
   player.zVel = 0;
-}
-
-function generateDungeon(size, tex){
-  for(let i=0; i<firstRoom.blocks.length; i++){
-    blocks.push(new Rect(firstRoom.blocks[i].x, firstRoom.blocks[i].y, firstRoom.blocks[i].z, firstRoom.blocks[i].dx, firstRoom.blocks[i].dy, firstRoom.blocks[i].dz, tex, firstRoom.blocks[i].wrap));
-  }
-
-  genPos.x = 0;
-  genPos.y = 0;
-  genPos.z = -31;
-  genPos.r = 0;
-
-  for(let r=0; r<size; r++){
-    let room = Math.floor(Math.random()*rooms.length);
-    for(let b=0; b<rooms[room].blocks.length; b++){
-      switch(genPos.r){
-        case 0:
-          blocks.push(new Rect(rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
-          break;
-        case 1:
-          blocks.push(new Rect(-rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
-          break;
-        case 2:
-          blocks.push(new Rect(-rooms[room].blocks[b].x + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].z + genPos.z, rooms[room].blocks[b].dx, rooms[room].blocks[b].dy, rooms[room].blocks[b].dz, tex, rooms[room].blocks[b].wrap));
-          break;
-        case 3:
-          blocks.push(new Rect(rooms[room].blocks[b].z + genPos.x, rooms[room].blocks[b].y + genPos.y, -rooms[room].blocks[b].x + genPos.z, rooms[room].blocks[b].dz, rooms[room].blocks[b].dy, rooms[room].blocks[b].dx, tex, rooms[room].blocks[b].wrap));
-          break;
-      }
-    }
-    switch(rooms[room].exit){
-      case "left":
-        genPos.r--;
-        if(genPos.r <= -1){
-          genPos.r = 3;
-        }
-        break;
-      case "right":
-        genPos.r++;
-        if(genPos.r >= 4){
-          genPos.r = 0;
-        }
-        break;
-    }
-    switch(genPos.r){
-      case 0:
-        genPos.z -= 31;
-        break;
-      case 1:
-        genPos.x += 31;
-        break;
-      case 2:
-        genPos.z += 31;
-        break;
-      case 3:
-        genPos.x -= 31;
-    }
-  }
 }
 
 function clearBlocks(){
