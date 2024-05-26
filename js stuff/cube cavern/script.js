@@ -1,5 +1,5 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.01, 80 );
+const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.01, 800 );
 const renderer = new THREE.WebGLRenderer({antialias:true});
 //renderer.shadowMap.enabled = true;
 //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -29,7 +29,7 @@ const halfHeight = playerHeight * 0.5;
 const halfWidth = playerWidth * 0.5;
 const stepHeight = 0.6;
 
-const speed = 0.00007;
+const speed = 0.00027;
 const gravity = 0.000024;
 const jumpHeight = 0.009;
 const dampening = 0.012;
@@ -450,7 +450,7 @@ function enterDungeon(type){
   switch(type){
     case "yellow":
       clearBlocks();
-      generateDungeon(3, "grass");
+      generateDungeon(8, "grass");
       break;
   }
   player.x = 0;
