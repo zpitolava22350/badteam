@@ -1,5 +1,5 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.01, 800 );
+const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.01, 50 );
 const renderer = new THREE.WebGLRenderer({antialias:true});
 //renderer.shadowMap.enabled = true;
 //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -16,12 +16,26 @@ scene.add( ambientLight );
 const playerPointLight = new THREE.PointLight( 0xffffff, 0.2 );
 scene.add( playerPointLight );
 
-function animate(){
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-}
+scene.fog = new THREE.Fog( 0xa0c8ff, 0, 50 );
 
-animate();
+var player = {
+  x: 0,
+  y: 2,
+  z: 0,
+  xVel: 0,
+  yVel: 0,
+  zVel: 0,
+  r: 0,
+  t: 0,
+  onGround: false,
+  inventory: {
+    slotSelected: 0,
+    slot: [null, null, null],
+    head: null,
+    back: null,
+    feet: null
+  }
+}
 
 const playerHeight = 1.8;
 const playerWidth = playerHeight * 0.3;
@@ -33,6 +47,24 @@ const speed = 0.00027;
 const gravity = 0.000024;
 const jumpHeight = 0.009;
 const dampening = 0.012;
+
+let t1 = 0;
+let t2 = 0;
+
+function animate(){
+  requestAnimationFrame(animate);
+
+  camera.position.x = player.x;
+  camera.position.y = player.y + (halfHeight/2);
+  camera.position.z = player.z;
+  playerPointLight.position.set( player.x, player.y + (halfHeight/2), player.z );
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.render(scene, camera);
+}
+
+animate();
 
 var genPos = {
   x: 0,
@@ -58,25 +90,6 @@ var hud = {
   menu: "none"
 }
 
-var player = {
-  x: 0,
-  y: 2,
-  z: 0,
-  xVel: 0,
-  yVel: 0,
-  zVel: 0,
-  r: 0,
-  t: 0,
-  onGround: false,
-  inventory: {
-    slotSelected: 0,
-    slot: [null, null, null],
-    head: null,
-    back: null,
-    feet: null
-  }
-}
-
 var textures = {};
 
 var blocks = [];
@@ -90,7 +103,7 @@ function setup(){
   cnv.position(0,0);
   pixelDensity(1);
   noSmooth();
-  frameRate(9999999);
+  frameRate(999999);
 
   let texToLoad = ["grass", "stone", "brick", "gray", "log", "smoothstone", "dark_gray", "orange"];
 
@@ -163,10 +176,10 @@ function draw(){
     hud.cursor.x += movedX;
     hud.cursor.y += movedY;
     if(hud.cursor.x >= (window.innerWidth/2) - 145 && hud.cursor.x <= (window.innerWidth/2) - 55 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45 && hud.menu != "none"){
-      //hand
-      if(player.inventory.slot[player.inventory.slotSelected] != null){
-        items.push(new Item(player.inventory.slot[player.inventory.slotSelected].item, player.x, player.y, player.z));
-        player.inventory.slot[player.inventory.slotSelected] = null;
+      //back
+      if(player.inventory.back != null){
+        items.push(new Item(player.inventory.back.item, player.x, player.y, player.z));
+        player.inventory.back = null;
       }
       hud.menu = "none";
       keyState.q = true;
@@ -193,10 +206,10 @@ function draw(){
       updateCraftingTables();
     }
     if(hud.cursor.x >= (window.innerWidth/2) + 55 && hud.cursor.x <= (window.innerWidth/2) + 145 && hud.cursor.y >= (window.innerHeight/2) - 45 && hud.cursor.y <= (window.innerHeight/2) + 45 && hud.menu != "none"){
-      //back
-      if(player.inventory.back != null){
-        items.push(new Item(player.inventory.back.item, player.x, player.y, player.z));
-        player.inventory.back = null;
+      //hand
+      if(player.inventory.slot[player.inventory.slotSelected] != null){
+        items.push(new Item(player.inventory.slot[player.inventory.slotSelected].item, player.x, player.y, player.z));
+        player.inventory.slot[player.inventory.slotSelected] = null;
       }
       hud.menu = "none";
       keyState.q = true;
@@ -204,6 +217,7 @@ function draw(){
     }
   } else {
     hud.menu = "none";
+    /*
     camera.rotateX(-player.t);
     camera.rotateY(-player.r);
 
@@ -227,6 +241,7 @@ function draw(){
 
     camera.rotateY(player.r);
     camera.rotateX(player.t);
+    */
   }
 
   if(keyIsDown(32) && player.onGround){
@@ -271,13 +286,6 @@ function draw(){
   }
 
   displayHud();
-
-  camera.position.x = player.x;
-  camera.position.y = player.y + (halfHeight/2);
-  camera.position.z = player.z;
-  playerPointLight.position.set( player.x, player.y + (halfHeight/2), player.z );
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
   
 }
 
@@ -335,10 +343,6 @@ function pickupItem(itemIndex){
   return false;
 }
 
-function mousePressed(){
-  requestPointerLock();
-}
-
 function displayHud(){
 
   let clr;
@@ -394,10 +398,10 @@ function displayHud(){
 
     fill(0);
     textSize(24);
-    text("Hand", (window.innerWidth/2) - 145, (window.innerHeight/2) - 45, 90, 90);
+    text("Back", (window.innerWidth/2) - 145, (window.innerHeight/2) - 45, 90, 90);
     text("Head", (window.innerWidth/2) - 45, (window.innerHeight/2) - 145, 90, 90);
     text("Feet", (window.innerWidth/2) - 45, (window.innerHeight/2) + 55, 90, 90);
-    text("Back", (window.innerWidth/2) + 55, (window.innerHeight/2) - 45, 90, 90);
+    text("Hand", (window.innerWidth/2) + 55, (window.innerHeight/2) - 45, 90, 90);
   }
 
   if(hud.menu != "none"){
@@ -450,6 +454,7 @@ function enterDungeon(type){
   switch(type){
     case "yellow":
       clearBlocks();
+      clearOther();
       generateDungeon(8, "grass");
       break;
   }
@@ -474,3 +479,63 @@ function clearBlocks(){
   }
   blocks.length = 0;
 }
+
+function clearOther(){
+  for(let i=0; i<items.length; i++){
+    items[i].unload();
+  }
+  for(let i=0; i<enemies.length; i++){
+    //enemies[i].unload();
+  }
+  for(let i=0; i<craftingTables.length; i++){
+    craftingTables[i].unload();
+  }
+  items.length = 0;
+  enemies.length = 0;
+  craftingTables.length = 0;
+}
+
+let isLocked = false;
+
+document.addEventListener('click', () => {
+    if (!isLocked) {
+        document.body.requestPointerLock();
+    }
+});
+
+document.addEventListener('pointerlockchange', () => {
+    isLocked = !!document.pointerLockElement;
+});
+
+let mouseMovementX = 0;
+let mouseMovementY = 0;
+let prevMouseX = 0;
+let prevMouseY = 0;
+
+document.addEventListener('mousemove', (event) => {
+    if (isLocked && hud.menu === "none") {
+        mouseMovementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        mouseMovementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+        mouseMovementX = Math.min(Math.abs(mouseMovementX), Math.abs(prevMouseX)+10, 100)*Math.sign(mouseMovementX);
+        mouseMovementY = Math.min(Math.abs(mouseMovementY), Math.abs(prevMouseY)+10, 100)*Math.sign(mouseMovementY);
+
+        player.r -= mouseMovementX * 0.003;
+        player.t -= mouseMovementY * 0.003;
+
+        player.t = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, player.t));
+
+        if (player.r > Math.PI) {
+            player.r -= Math.PI * 2;
+        } else if (player.r < -Math.PI) {
+            player.r += Math.PI * 2;
+        }
+
+        camera.rotation.set(0, 0, 0);
+        camera.rotateY(player.r);
+        camera.rotateX(player.t);
+
+        prevMouseX = mouseMovementX;
+        prevMouseY = mouseMovementY;
+    }
+});

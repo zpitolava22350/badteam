@@ -1,6 +1,19 @@
+var spawnableItems = [
+    "Stick",
+    "Rock",
+    "Rope",
+    "Leather"
+];
+
 class Item{
     constructor(item, x, y, z){
-        this.item = item;
+
+        if(item != "random"){
+            this.item = item;
+        } else {
+            this.item = spawnableItems[Math.floor(Math.random()*spawnableItems.length)];
+        }
+        
         this.x = x;
         this.y = y;
         this.z = z;

@@ -1,21 +1,19 @@
 var hubRoom = JSON.parse(`{"blocks":[{"x":-5,"y":3,"z":0,"dx":1,"dy":6,"dz":10,"tex":1,"wrap":1,"tag":0},{"x":0,"y":0,"z":0,"dx":10,"dy":1,"dz":10,"tex":1,"wrap":1,"tag":0},{"x":0,"y":3,"z":-5,"dx":10,"dy":6,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":0,"y":3,"z":5,"dx":10,"dy":6,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":5,"y":3,"z":0,"dx":1,"dy":6,"dz":10,"tex":1,"wrap":1,"tag":0}]}`);
 
-var firstRoom = JSON.parse(`{"blocks":[{"x":0,"y":6,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":0,"y":0,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":6,"y":3,"z":0,"dx":1,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":0,"y":3,"z":5,"dx":13,"dy":5,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":5,"y":3,"z":-10,"dx":5,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":-6,"y":3,"z":0,"dx":1,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":-5,"y":3,"z":-10,"dx":5,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0}]}`)
+var firstRoom = JSON.parse(`{"blocks":[{"x":0,"y":6,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":0,"y":0,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":6,"y":3,"z":0,"dx":1,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":0,"y":3,"z":5,"dx":13,"dy":5,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":5,"y":3,"z":-10,"dx":5,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":-6,"y":3,"z":0,"dx":1,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0},{"x":-5,"y":3,"z":-10,"dx":5,"dy":5,"dz":11,"tex":1,"wrap":1,"tag":0}]}`);
 
 //ALL TURN LEFT
-var turnRooms = [
-    JSON.parse(`{
-        "blocks":[{"x":0,"y":6,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":0,"y":0,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":3,"y":3,"z":6,"dx":1,"dy":5,"dz":19,"tex":1,"wrap":1,"tag":0},{"x":-6,"y":3,"z":-3,"dx":19,"dy":5,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":-9,"y":3,"z":3,"dx":13,"dy":5,"dz":1,"tex":1,"wrap":1,"tag":0},{"x":-3,"y":3,"z":9,"dx":1,"dy":5,"dz":13,"tex":1,"wrap":1,"tag":0}],
-        "heightDiff": 0
-    }`)
+var turnRoomsLoad = [
+    JSON.parse(`{"blocks":[[0,31,6,1,0,31,"stone",1,""],[0,31,3,25,-15,1,"stone",1,""],[9,13,3,25,15,1,"stone",1,""],[-9,13,3,25,15,1,"stone",1,""],[-15,1,3,25,9,13,"stone",1,""],[15,1,3,25,0,31,"stone",1,""],[0,5,10.5,10,15,1,"stone",1,""],[0,5,0,1,15,1,"grass",1,""],[0,5,-5,9,15,1,"stone",1,""],[-15,1,3,25,-9,13,"stone",1,""],[-15,1,11,9,0,5,"stone",1,""],[0,31,0,1,0,31,"grass",1,""],[-15,1,0,1,0,5,"grass",1,""],[-15,1,-5,9,0,5,"stone",1,""]],"markers":[[0,1,0,"crafting"],[6,1,0,"enemy"],[-6,1,0,"item"]]}`)
 ];
 
-var straightRooms = [
-    JSON.parse(`{
-        "blocks":[{"x":0,"y":6,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":0,"y":0,"z":0,"dx":31,"dy":1,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":-3,"y":3,"z":0,"dx":1,"dy":5,"dz":31,"tex":1,"wrap":1,"tag":0},{"x":3,"y":3,"z":0,"dx":1,"dy":5,"dz":31,"tex":1,"wrap":1,"tag":0}],
-        "heightDiff": 0
-    }`)
+var straightRoomsLoad = [
+    JSON.parse(`{"blocks":[[0,31,6,1,0,31,"stone",1,""],[0,31,0,1,0,31,"grass",1,""],[9,13,3,25,-15,1,"stone",1,""],[-9,13,3,25,-15,1,"stone",1,""],[9,13,3,25,15,1,"stone",1,""],[-9,13,3,25,15,1,"stone",1,""],[-15,1,3,25,0,31,"stone",1,""],[15,1,3,25,0,31,"stone",1,""],[0,5,10.5,10,-15,1,"stone",1,""],[0,5,0,1,-15,1,"grass",1,""],[0,5,10.5,10,15,1,"stone",1,""],[0,5,-5,9,-15,1,"stone",1,""],[0,5,0,1,15,1,"grass",1,""],[0,5,-5,9,15,1,"stone",1,""]],"markers":[[6,1,0,"enemy"],[-6,1,0,"item"],[0,1,0,"crafting"]]}
+    `)
 ];
+
+var turnRooms = [];
+var straightRooms = [];
 
 function formatMaps(){
 
@@ -29,17 +27,104 @@ function formatMaps(){
         delete firstRoom.blocks[i].tag;
     }
 
-    for(let r=0; r<turnRooms.length; r++){
-        for(let b=0; b<turnRooms[r].blocks.length; b++){
-            delete turnRooms[r].blocks[b].tag;
-            delete turnRooms[r].blocks[b].tex;
+    for(let r=0; r<turnRoomsLoad.length; r++){
+      turnRooms.push({blocks: [], enemies: [], items: [], crafting: []});
+        for(let b=0; b<turnRoomsLoad[r].blocks.length; b++){
+          turnRooms[r].blocks.push({
+            x: turnRoomsLoad[r].blocks[b][0],
+            y: turnRoomsLoad[r].blocks[b][2],
+            z: turnRoomsLoad[r].blocks[b][4],
+            dx: turnRoomsLoad[r].blocks[b][1],
+            dy: turnRoomsLoad[r].blocks[b][3],
+            dz: turnRoomsLoad[r].blocks[b][5],
+            tex: null,
+            wrap: turnRoomsLoad[r].blocks[b][7],
+            data: turnRoomsLoad[r].blocks[b][8]
+          })
+          switch(turnRoomsLoad[r].blocks[b][6]){
+            case "grass":
+              turnRooms[r].blocks[b].tex = "floor";
+              break;
+            case "stone":
+              turnRooms[r].blocks[b].tex = "wall";
+              break;
+          }
+        }
+        console.log(turnRoomsLoad[0])
+        for(let m=0; m<turnRoomsLoad[r].markers.length; m++){
+          switch(turnRoomsLoad[r].markers[m][3]){
+            case "item":
+              turnRooms[r].items.push({
+                x: turnRoomsLoad[r].markers[m][0],
+                y: turnRoomsLoad[r].markers[m][1],
+                z: turnRoomsLoad[r].markers[m][2]
+              });
+              break;
+            case "enemy":
+              turnRooms[r].enemies.push({
+                x: turnRoomsLoad[r].markers[m][0],
+                y: turnRoomsLoad[r].markers[m][1],
+                z: turnRoomsLoad[r].markers[m][2]
+              });
+              break;
+            case "crafting":
+              turnRooms[r].crafting.push({
+                x: turnRoomsLoad[r].markers[m][0],
+                y: turnRoomsLoad[r].markers[m][1],
+                z: turnRoomsLoad[r].markers[m][2]
+              });
+              break;
+          }
         }
     }
 
-    for(let r=0; r<straightRooms.length; r++){
-        for(let b=0; b<straightRooms[r].blocks.length; b++){
-            delete straightRooms[r].blocks[b].tag;
-            delete straightRooms[r].blocks[b].tex;
+    for(let r=0; r<straightRoomsLoad.length; r++){
+      straightRooms.push({blocks: [], enemies: [], items: [], crafting: []});
+        for(let b=0; b<straightRoomsLoad[r].blocks.length; b++){
+          straightRooms[r].blocks.push({
+            x: straightRoomsLoad[r].blocks[b][0],
+            y: straightRoomsLoad[r].blocks[b][2],
+            z: straightRoomsLoad[r].blocks[b][4],
+            dx: straightRoomsLoad[r].blocks[b][1],
+            dy: straightRoomsLoad[r].blocks[b][3],
+            dz: straightRoomsLoad[r].blocks[b][5],
+            tex: null,
+            wrap: straightRoomsLoad[r].blocks[b][7],
+            data: straightRoomsLoad[r].blocks[b][8]
+          })
+          switch(straightRoomsLoad[r].blocks[b][6]){
+            case "grass":
+              straightRooms[r].blocks[b].tex = "floor";
+              break;
+            case "stone":
+              straightRooms[r].blocks[b].tex = "wall";
+              break;
+          }
+        }
+        for(let m=0; m<straightRoomsLoad[r].markers.length; m++){
+          switch(straightRoomsLoad[r].markers[m][3]){
+            case "item":
+              straightRooms[r].items.push({
+                x: straightRoomsLoad[r].markers[m][0],
+                y: straightRoomsLoad[r].markers[m][1],
+                z: straightRoomsLoad[r].markers[m][2]
+              });
+              break;
+            case "enemy":
+              straightRooms[r].enemies.push({
+                x: straightRoomsLoad[r].markers[m][0],
+                y: straightRoomsLoad[r].markers[m][1],
+                z: straightRoomsLoad[r].markers[m][2]
+              });
+              break;
+            case "crafting":
+              straightRooms[r].crafting.push({
+                x: straightRoomsLoad[r].markers[m][0],
+                y: straightRoomsLoad[r].markers[m][1],
+                z: straightRoomsLoad[r].markers[m][2]
+              });
+              break;
+          }
         }
     }
     
@@ -50,6 +135,9 @@ function createRooms(layout, tex){
   let currentRotation = 0;
   for(let r=0; r<layout.length; r++){
     let room;
+    let spawnItems = [];
+    let spawnEnemies = [];
+    let spawnCrafting = [];
     if(r === 0){ // START
       room = [];
       for(let i=0; i<firstRoom.blocks.length; i++){
@@ -79,18 +167,43 @@ function createRooms(layout, tex){
         });
       }
     } else { // ROOMS
+      let rnd;
       switch(layout[r].dir){
         case 0:
-          room = JSON.parse(JSON.stringify(straightRooms[Math.floor(Math.random()*(straightRooms.length-1))].blocks));
+          rnd = Math.floor(Math.random()*(straightRooms.length-1));
+
+          room = JSON.parse(JSON.stringify(straightRooms[rnd].blocks));
+          spawnItems = JSON.parse(JSON.stringify(straightRooms[rnd].items));
+          spawnCrafting = JSON.parse(JSON.stringify(straightRooms[rnd].crafting));
+          spawnEnemies = JSON.parse(JSON.stringify(straightRooms[rnd].enemies));
           break;
         case 1:
-          room = JSON.parse(JSON.stringify(turnRooms[Math.floor(Math.random()*(turnRooms.length-1))].blocks));
+          rnd = Math.floor(Math.random()*(turnRooms.length-1));
+
+          room = JSON.parse(JSON.stringify(turnRooms[rnd].blocks));
+          spawnItems = JSON.parse(JSON.stringify(turnRooms[rnd].items));
+          spawnCrafting = JSON.parse(JSON.stringify(turnRooms[rnd].crafting));
+          spawnEnemies = JSON.parse(JSON.stringify(turnRooms[rnd].enemies));
           for(let i=0; i<room.length; i++){
             room[i].x = -room[i].x;
           }
+          for(let i=0; i<spawnItems.length; i++){
+            spawnItems[i].x = -spawnItems[i].x;
+          }
+          for(let i=0; i<spawnCrafting.length; i++){
+            spawnCrafting[i].x = -spawnCrafting[i].x;
+          }
+          for(let i=0; i<spawnEnemies.length; i++){
+            spawnEnemies[i].x = -spawnEnemies[i].x;
+          }
           break;
         case 3:
-          room = JSON.parse(JSON.stringify(turnRooms[Math.floor(Math.random()*(turnRooms.length-1))].blocks));
+          rnd = Math.floor(Math.random()*(turnRooms.length-1));
+
+          room = JSON.parse(JSON.stringify(turnRooms[rnd].blocks));
+          spawnItems = JSON.parse(JSON.stringify(turnRooms[rnd].items));
+          spawnCrafting = JSON.parse(JSON.stringify(turnRooms[rnd].crafting));
+          spawnEnemies = JSON.parse(JSON.stringify(turnRooms[rnd].enemies));
           break;
       }
     }
@@ -99,6 +212,13 @@ function createRooms(layout, tex){
 
     for(let b=0; b<room.length; b++){
       blocks.push(new Rect(room[b].x + (layout[r].x*31), room[b].y, room[b].z + (layout[r].y*31), room[b].dx, room[b].dy, room[b].dz, tex, room[b].wrap));
+    }
+    console.log(spawnItems[0])
+    for(let i=0; i<spawnItems.length; i++){
+      items.push(new Item("random", spawnItems[i].x + (layout[r].x*31), spawnItems[i].y, spawnItems[i].z + (layout[r].y*31)));
+    }
+    for(let c=0; c<spawnCrafting.length; c++){
+      craftingTables.push(new CraftingTable(spawnCrafting[c].x + (layout[r].x*31), spawnCrafting[c].y, spawnCrafting[c].z + (layout[r].y*31)));
     }
 
     currentRotation = (currentRotation + layout[r].dir)%4;
