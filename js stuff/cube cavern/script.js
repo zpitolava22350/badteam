@@ -28,6 +28,7 @@ var player = {
   r: 0,
   t: 0,
   onGround: false,
+  room: 0,
   inventory: {
     slotSelected: 0,
     slot: [null, null, null],
@@ -97,6 +98,8 @@ var blocks = [];
 var items = [];
 var enemies = [];
 var craftingTables = [];
+
+var rooms = [];
 
 function setup(){
   var cnv = createCanvas(window.innerWidth, window.innerHeight);
