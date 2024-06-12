@@ -4,9 +4,11 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/File.spritefont</File>
     <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/grass.png</File>
   </SourceFiles>
   <DestFiles>
+    <File>ArialFont.spritefont</File>
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

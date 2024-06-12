@@ -14,6 +14,8 @@ namespace _3d_test {
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private SpriteBatch spriteBatchText;
+        private SpriteFont font;
         private BasicEffect basicEffect;
         private zpitoHandler zpitoHandler = new zpitoHandler();
 
@@ -37,7 +39,7 @@ namespace _3d_test {
             //consistent framerate
             IsFixedTimeStep = true;
 
-            player = new Player(new Vector3(0, 4, 0), 50f);
+            player = new Player(new Vector3(0, 5, 0), 50f);
         }
 
         protected override void Initialize() {
@@ -53,20 +55,23 @@ namespace _3d_test {
 
             // Create the cube vertices
 
-            for(int x = 0; x < 100; x++) {
-                for(int y = 0; y < 100; y++) {
-                    blocks.Add(new Block(new Vector3(x, (float)rand.NextDouble(), -y), new Vector3(1, 1, 1), 1));
-                }
-            }
-            
+            blocks.Add(new Block(new Vector3(0, 0, 0), new Vector3(10, 1, 10), 1));
+            blocks.Add(new Block(new Vector3(2, 1, 2), new Vector3(1, 1, 1), 1));
+            blocks.Add(new Block(new Vector3(3, 1, 2), new Vector3(1, 1, 1), 1));
+            blocks.Add(new Block(new Vector3(3, 1, 3), new Vector3(1, 1, 1), 1));
+            blocks.Add(new Block(new Vector3(2, 1, 3), new Vector3(1, 1, 1), 1));
+
 
         }
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatchText = new SpriteBatch(GraphicsDevice);
 
             // Load the texture
             cubeTexture = Content.Load<Texture2D>("grass");
+
+            font = Content.Load<SpriteFont>("ArialFont");
 
             SamplerState customSamplerState = new SamplerState {
                 Filter = TextureFilter.Point, // Nearest-neighbor interpolation
@@ -110,7 +115,7 @@ namespace _3d_test {
             Vector3 upDirection = Vector3.Transform(Vector3.Up, rotationMatrix);
 
             // Create the view matrix
-            Matrix viewMatrix = Matrix.CreateLookAt(player.position, player.position + lookDirection, upDirection);
+            Matrix viewMatrix = Matrix.CreateLookAt(player.cameraPosition, player.cameraPosition + lookDirection, upDirection);
 
             // Apply the view matrix to the basic effect
             basicEffect.View = viewMatrix;
@@ -119,6 +124,10 @@ namespace _3d_test {
                 pass.Apply();
                 zpitoHandler.renderAll(blocks);
             }
+
+            spriteBatchText.Begin();
+            spriteBatchText.DrawString(font, player.yMin + "\n" + blocks[0].yMax, new Vector2(10, 10), Color.Black);
+            spriteBatchText.End();
 
             base.Draw(gameTime);
         }

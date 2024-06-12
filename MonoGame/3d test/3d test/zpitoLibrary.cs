@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-//using System.Numerics;
+//using System.Numerics; bro why
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +14,16 @@ using System.Threading.Tasks;
  * 
  * TODO
  * 
+ * fix collision (going through corners will just let u through)
+ * MAKE BLOCKS WORK WITH DIFFERENT TEXTURES
+ * MAKE TEXT ON SCREEN NOT TURN EVERYTHING INTO SOUP
  * Sprint system (and a way to toggle it off)
  * movement toggle (similar to mouseLock)
  * maybe a flying mode (similar to the replit map editor)
+ * 
  * you fucking goober :3
+ * :3 miau
+ * colon three keeps me sane
  * 
  */
 
@@ -38,6 +45,7 @@ namespace _3d_test {
         private Vector3 pos;
         private Vector3 vel;
         private Vector2 rot;
+        private float deltaTime;
         
         private float fov;
 
@@ -53,6 +61,7 @@ namespace _3d_test {
         public float stepHeight { get; set; }
         public float jumpHeight { get; set; }
         public float damping { get; set; }
+        public Vector3 cameraPosition { get; set; }
 
         public Player(Vector3 position, float moveSpeed) {
             this.pos = position;
@@ -60,7 +69,7 @@ namespace _3d_test {
             this.mouseSensitivity = 0.002f;
             this.mouseLock = true;
             this.rot = new Vector2(0, 0);
-            this.fov = 90f;
+            this.fov = 110f;
             this.gravity = 15f;
             this.width = 0.6f;
             this.height = 1.8f;
@@ -70,6 +79,11 @@ namespace _3d_test {
             this.jumpHeight = 6f;
             this.damping = 0.1f;
             this.onGround = false;
+            this.cameraPosition = position + new Vector3(0, this.halfHeight/2f, 0);
+        }
+
+        public void bruh(float buh) {
+            deltaTime = buh;
         }
         
         public Vector3 position {
@@ -104,6 +118,44 @@ namespace _3d_test {
         public float zVel {
             get { return vel.Z; }
             set { vel.Z = value; }
+        }
+
+        public float xMax {
+            get { return pos.X + halfWidth; }
+        }
+        public float xMin {
+            get { return pos.X - halfWidth; }
+        }
+        public float yMax {
+            get { return pos.Y + halfHeight; }
+        }
+        public float yMin {
+            get { return pos.Y - halfHeight; }
+        }
+        public float zMax {
+            get { return pos.Z + halfWidth; }
+        }
+        public float zMin {
+            get { return pos.Z - halfWidth; }
+        }
+
+        public float xMaxNext {
+            get { return pos.X + halfWidth + (vel.X * deltaTime); }
+        }
+        public float xMinNext {
+            get { return pos.X - halfWidth + (vel.X * deltaTime); }
+        }
+        public float yMaxNext {
+            get { return pos.Y + halfHeight + (vel.Y * deltaTime); }
+        }
+        public float yMinNext {
+            get { return pos.Y - halfHeight + (vel.Y * deltaTime); }
+        }
+        public float zMaxNext {
+            get { return pos.Z + halfWidth + (vel.Z * deltaTime); }
+        }
+        public float zMinNext {
+            get { return pos.Z - halfWidth + (vel.Z * deltaTime); }
         }
 
         public Vector2 rotation {
@@ -154,16 +206,16 @@ namespace _3d_test {
             float dz2 = this.scale.Z / 2;
 
             // Back (z-)
-            this.vertices[0] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y - dy2, this.pos.Z - dz2), new Vector2(0, 1));
+            this.vertices[0] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y - dy2, this.pos.Z - dz2), new Vector2(this.dx / this.wrap, 0));
             this.vertices[1] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y + dy2, this.pos.Z - dz2), new Vector2(0, 0));
-            this.vertices[2] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y + dy2, this.pos.Z - dz2), new Vector2(1, 0));
-            this.vertices[3] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y - dy2, this.pos.Z - dz2), new Vector2(1, 1));
+            this.vertices[2] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y + dy2, this.pos.Z - dz2), new Vector2(0, this.dy / this.wrap));
+            this.vertices[3] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y - dy2, this.pos.Z - dz2), new Vector2(this.dx / this.wrap, this.dy / this.wrap));
 
             // Front (z+)
-            this.vertices[4] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y - dy2, this.pos.Z + dz2), new Vector2(0, 1));
+            this.vertices[4] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y - dy2, this.pos.Z + dz2), new Vector2(this.dx / this.wrap, 0));
             this.vertices[5] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y + dy2, this.pos.Z + dz2), new Vector2(0, 0));
-            this.vertices[6] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y + dy2, this.pos.Z + dz2), new Vector2(1, 0));
-            this.vertices[7] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y - dy2, this.pos.Z + dz2), new Vector2(1, 1));
+            this.vertices[6] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y + dy2, this.pos.Z + dz2), new Vector2(0, this.dy / this.wrap));
+            this.vertices[7] = new VertexPositionTexture(new Vector3(this.pos.X + dx2, this.pos.Y - dy2, this.pos.Z + dz2), new Vector2(this.dx / this.wrap, this.dy / this.wrap));
 
             // Left (x-)
             this.vertices[8] = new VertexPositionTexture(new Vector3(this.pos.X - dx2, this.pos.Y + dy2, this.pos.Z + dz2), new Vector2(0, 0));
@@ -227,12 +279,31 @@ namespace _3d_test {
             set { scale.X = value; }
         }
         public float dy {
-            get { return scale.X; }
-            set { scale.X = value; }
+            get { return scale.Y; }
+            set { scale.Y = value; }
         }
         public float dz {
-            get { return scale.X; }
-            set { scale.X = value; }
+            get { return scale.Z; }
+            set { scale.Z = value; }
+        }
+
+        public float xMax {
+            get { return this.x + (this.dx / 2); }
+        }
+        public float xMin {
+            get { return this.x - (this.dx / 2); }
+        }
+        public float yMax {
+            get { return this.y + (this.dy / 2); }
+        }
+        public float yMin {
+            get { return this.y - (this.dy / 2); }
+        }
+        public float zMax {
+            get { return this.z + (this.dz / 2); }
+        }
+        public float zMin {
+            get { return this.z - (this.dz / 2); }
         }
 
         public float wrap {
@@ -256,106 +327,65 @@ namespace _3d_test {
 
         public void collideFloor(Player player, float deltaTime) {
             bool inside = false;
-            if (player.x - player.halfWidth < this.x + (this.dx * 0.5f) && player.x + player.halfWidth > this.x - (this.dx * 0.5f) && player.z - player.halfWidth < this.z + (this.dz * 0.5f) && player.z + player.halfWidth > this.z - (this.dz * 0.5f)) {
+            bool insideNext = false;
+            if (player.xMax > this.xMin && player.xMin < this.xMax && player.zMax > this.zMin && player.zMin < this.zMax) {
                 inside = true;
             }
-            if (inside) {
-                if (player.y - player.halfHeight > this.y + (this.dy * 0.5f) && player.y - player.halfHeight + (player.yVel * deltaTime) < this.y + (this.dy * 0.5f)) {
-                    //above, but hit ground next frame
-                    player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
-                    player.yVel = 0;
-                    player.onGround = true;
-                }
-                if (player.y + player.halfHeight < this.y - (this.dy * 0.5f) && player.y + player.halfHeight + (player.yVel * deltaTime) > this.y - (this.dy * 0.5f)) {
-                    //under, but hit head next frame
-                    player.y = this.y - (this.dy * 0.5f) - player.halfHeight - 0.0001f;
-                    player.yVel = 0;
-                }
+            if (player.xMaxNext > this.xMin && player.xMinNext < this.xMax && player.zMaxNext > this.zMin && player.zMinNext < this.zMax) {
+                insideNext = true;
+            }
+            if (inside && insideNext && player.yMin >= this.yMax && player.yMinNext < this.yMax) {
+                player.y = this.y + (this.dy/2) + player.halfHeight;
+                player.yVel = 0;
+                player.onGround = true;
+            }
+            if (inside && insideNext && player.yMax < this.yMin && player.yMaxNext > this.yMin) {
+                player.y = this.y - (this.dy / 2) - player.halfHeight;
+                player.yVel = 0;
             }
         }
         public void collide(Player player, float deltaTime) {
-            bool inY = false;
-            bool canStep = false;
-            if (player.y - player.halfHeight + (player.yVel * deltaTime) < this.y + (this.dy * 0.5f) && player.y + player.halfHeight + (player.yVel * deltaTime) > this.y - (this.dy * 0.5f)) {
-                inY = true;
-                if ((this.y + (this.dy * 0.5f)) - (player.y - player.halfHeight) <= player.stepHeight) {
-                    canStep = true;
-                }
+            bool insideY = false;
+            bool insideYNext = false;
+            bool insideX = false;
+            bool insideXNext = false;
+            bool insideZ = false;
+            bool insideZNext = false;
+            if (player.yMax > this.yMin && player.yMin < this.yMax) {
+                insideY = true;
             }
-
-            if (inY) {
-
-                bool inX = false;
-                bool inXNext = false;
-                bool inZ = false;
-                bool inZNext = false;
-
-                if (player.x + player.halfWidth > this.x - (this.dx * 0.5f) && player.x - player.halfWidth < this.x + (this.dx * 0.5f)) {
-                    inX = true;
+            if (player.yMaxNext > this.yMin && player.yMinNext < this.yMax) {
+                insideYNext = true;
+            }
+            if (player.zMax > this.zMin && player.zMin < this.zMax) {
+                insideZ = true;
+            }
+            if (player.zMaxNext > this.zMin && player.zMinNext < this.zMax) {
+                insideZNext = true;
+            }
+            if (player.xMax > this.xMin && player.xMin < this.xMax) {
+                insideX = true;
+            }
+            if (player.xMaxNext > this.xMin && player.xMinNext < this.xMax) {
+                insideXNext = true;
+            }
+            if (insideYNext) {
+                if(insideZNext && insideZ && player.xMin >= this.xMax && player.xMinNext < this.xMax) {
+                    player.x = this.x + (this.dx / 2) + player.halfWidth;
+                    player.xVel = 0;
                 }
-                if (player.z + player.halfWidth > this.z - (this.dz * 0.5f) && player.z - player.halfWidth < this.z + (this.dz * 0.5f)) {
-                    inZ = true;
+                if (insideZNext && insideZ && player.xMax <= this.xMin && player.xMaxNext > this.xMin) {
+                    player.x = this.x - (this.dx / 2) - player.halfWidth;
+                    player.xVel = 0;
                 }
-                if (player.x + player.halfWidth + (player.xVel * deltaTime) > this.x - (this.dx * 0.5f) && player.x - player.halfWidth + (player.xVel * deltaTime) < this.x + (this.dx * 0.5f)) {
-                    inXNext = true;
+                if (insideXNext && insideX && player.zMin >= this.zMax && player.zMinNext < this.zMax) {
+                    player.z = this.z + (this.dz / 2) + player.halfWidth;
+                    player.zVel = 0;
                 }
-                if (player.z + player.halfWidth + (player.zVel * deltaTime) > this.z - (this.dz * 0.5f) && player.z - player.halfWidth + (player.zVel * deltaTime) < this.z + (this.dz * 0.5f)) {
-                    inZNext = true;
+                if (insideXNext && insideX && player.zMax <= this.zMin && player.zMaxNext > this.zMin) {
+                    player.z = this.z - (this.dz / 2) - player.halfWidth;
+                    player.zVel = 0;
                 }
-
-                if (inZ && !inX && inXNext) {
-                    if (canStep && player.onGround) {
-                        player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
-                    } else {
-                        if (player.x < this.x) {
-                            player.x = this.x - (this.dx * 0.5f) - player.halfWidth;
-                            player.xVel = 0;
-                        }
-                        if (player.x > this.x) {
-                            player.x = this.x + (this.dx * 0.5f) + player.halfWidth;
-                            player.xVel = 0;
-                        }
-                    }
-                }
-
-                if (inX && !inZ && inZNext) {
-                    if (canStep && player.onGround) {
-                        player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
-                    } else {
-                        if (player.z < this.z) {
-                            player.z = this.z - (this.dz * 0.5f) - player.halfWidth;
-                            player.zVel = 0;
-                        }
-                        if (player.z > this.z) {
-                            player.z = this.z + (this.dz * 0.5f) + player.halfWidth;
-                            player.zVel = 0;
-                        }
-                    }
-                }
-
-                //bugfix
-                if (!inX && !inZ && inXNext && inZNext) {
-                    if (Math.Abs(player.xVel) > Math.Abs(player.zVel)) {
-                        if (player.z < this.z) {
-                            player.z = this.z - (this.dz * 0.5f) - player.halfWidth;
-                            player.zVel = 0;
-                        }
-                        if (player.z > this.z) {
-                            player.z = this.z + (this.dz * 0.5f) + player.halfWidth;
-                            player.zVel = 0;
-                        }
-                    } else {
-                        if (player.x < this.x) {
-                            player.x = this.x - (this.dx * 0.5f) - player.halfWidth;
-                            player.xVel = 0;
-                        }
-                        if (player.x > this.x) {
-                            player.x = this.x + (this.dx * 0.5f) + player.halfWidth;
-                            player.xVel = 0;
-                        }
-                    }
-                }
-
             }
         }
     }
@@ -378,6 +408,8 @@ namespace _3d_test {
         public void updatePlayer(Player player, List<Block> blocks, float deltaTime) {
 
             Microsoft.Xna.Framework.Point screenCenter = new Microsoft.Xna.Framework.Point(ResourceManager.GraphicsDevice.Viewport.Width / 2, ResourceManager.GraphicsDevice.Viewport.Height / 2);
+
+            player.bruh(deltaTime);
 
             // Get the current mouse state
             var mouseState = Mouse.GetState();
@@ -429,6 +461,8 @@ namespace _3d_test {
             }
 
             player.position += player.velocity * deltaTime;
+
+            player.cameraPosition = player.position + new Vector3(0, player.halfHeight / 2f, 0);
 
             player.xVel = MathHelper.LerpPrecise(player.xVel, 0, player.damping);
             player.zVel = MathHelper.LerpPrecise(player.zVel, 0, player.damping);

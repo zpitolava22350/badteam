@@ -24,3 +24,4 @@ C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\obj\Debug\net6.
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\obj\Debug\net6.0\3d test.genruntimeconfig.cache
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\obj\Debug\net6.0\ref\3d test.dll
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\grass.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\ArialFont.xnb
