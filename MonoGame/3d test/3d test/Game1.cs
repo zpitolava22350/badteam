@@ -37,7 +37,7 @@ namespace _3d_test {
             //consistent framerate
             IsFixedTimeStep = true;
 
-            player = new Player(new Vector3(0, 2, 0), 5f, 0.002f);
+            player = new Player(new Vector3(0, 4, 0), 50f);
         }
 
         protected override void Initialize() {
@@ -52,7 +52,13 @@ namespace _3d_test {
             IsMouseVisible = false;
 
             // Create the cube vertices
-            blocks.Add(new Block(new Vector3(0, 0, 0), new Vector3(1, 1, 1), 1));
+
+            for(int x = 0; x < 100; x++) {
+                for(int y = 0; y < 100; y++) {
+                    blocks.Add(new Block(new Vector3(x, (float)rand.NextDouble(), -y), new Vector3(1, 1, 1), 1));
+                }
+            }
+            
 
         }
 

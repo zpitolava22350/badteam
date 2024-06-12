@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+//using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +13,6 @@ using System.Threading.Tasks;
  * 
  * TODO
  * 
- * Block Collision
- * Movement dampening
  * Sprint system (and a way to toggle it off)
  * movement toggle (similar to mouseLock)
  * maybe a flying mode (similar to the replit map editor)
@@ -51,6 +50,9 @@ namespace _3d_test {
         public float height { get; set; }
         public float halfWidth { get; set; }
         public float halfHeight { get; set; }
+        public float stepHeight { get; set; }
+        public float jumpHeight { get; set; }
+        public float damping { get; set; }
 
         public Player(Vector3 position, float moveSpeed) {
             this.pos = position;
@@ -59,27 +61,17 @@ namespace _3d_test {
             this.mouseLock = true;
             this.rot = new Vector2(0, 0);
             this.fov = 90f;
-            this.gravity = 1f;
+            this.gravity = 15f;
             this.width = 0.6f;
             this.height = 1.8f;
             this.halfWidth = this.width / 2;
             this.halfHeight = this.height / 2;
+            this.stepHeight = 0.6f;
+            this.jumpHeight = 6f;
+            this.damping = 0.1f;
+            this.onGround = false;
         }
-
-        public Player(Vector3 position, float moveSpeed, float sensitivity) {
-            this.pos = position;
-            this.movementSpeed = moveSpeed;
-            this.mouseSensitivity = sensitivity;
-            this.mouseLock = true;
-            this.rot = new Vector2(0, 0);
-            this.fov = 90f;
-            this.gravity = 1f;
-            this.width = 0.6f;
-            this.height = 1.8f;
-            this.halfWidth = this.width / 2;
-            this.halfHeight = this.height / 2;
-        }
-
+        
         public Vector3 position {
             get { return pos; }
             set { pos = value; }
@@ -262,14 +254,110 @@ namespace _3d_test {
             ResourceManager.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, this.vert, 0, 24, this.ind, 0, 12);
         }
 
-        public void collideFloor() {
-
+        public void collideFloor(Player player, float deltaTime) {
+            bool inside = false;
+            if (player.x - player.halfWidth < this.x + (this.dx * 0.5f) && player.x + player.halfWidth > this.x - (this.dx * 0.5f) && player.z - player.halfWidth < this.z + (this.dz * 0.5f) && player.z + player.halfWidth > this.z - (this.dz * 0.5f)) {
+                inside = true;
+            }
+            if (inside) {
+                if (player.y - player.halfHeight > this.y + (this.dy * 0.5f) && player.y - player.halfHeight + (player.yVel * deltaTime) < this.y + (this.dy * 0.5f)) {
+                    //above, but hit ground next frame
+                    player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
+                    player.yVel = 0;
+                    player.onGround = true;
+                }
+                if (player.y + player.halfHeight < this.y - (this.dy * 0.5f) && player.y + player.halfHeight + (player.yVel * deltaTime) > this.y - (this.dy * 0.5f)) {
+                    //under, but hit head next frame
+                    player.y = this.y - (this.dy * 0.5f) - player.halfHeight - 0.0001f;
+                    player.yVel = 0;
+                }
+            }
         }
+        public void collide(Player player, float deltaTime) {
+            bool inY = false;
+            bool canStep = false;
+            if (player.y - player.halfHeight + (player.yVel * deltaTime) < this.y + (this.dy * 0.5f) && player.y + player.halfHeight + (player.yVel * deltaTime) > this.y - (this.dy * 0.5f)) {
+                inY = true;
+                if ((this.y + (this.dy * 0.5f)) - (player.y - player.halfHeight) <= player.stepHeight) {
+                    canStep = true;
+                }
+            }
 
-        public void collide() {
+            if (inY) {
 
+                bool inX = false;
+                bool inXNext = false;
+                bool inZ = false;
+                bool inZNext = false;
+
+                if (player.x + player.halfWidth > this.x - (this.dx * 0.5f) && player.x - player.halfWidth < this.x + (this.dx * 0.5f)) {
+                    inX = true;
+                }
+                if (player.z + player.halfWidth > this.z - (this.dz * 0.5f) && player.z - player.halfWidth < this.z + (this.dz * 0.5f)) {
+                    inZ = true;
+                }
+                if (player.x + player.halfWidth + (player.xVel * deltaTime) > this.x - (this.dx * 0.5f) && player.x - player.halfWidth + (player.xVel * deltaTime) < this.x + (this.dx * 0.5f)) {
+                    inXNext = true;
+                }
+                if (player.z + player.halfWidth + (player.zVel * deltaTime) > this.z - (this.dz * 0.5f) && player.z - player.halfWidth + (player.zVel * deltaTime) < this.z + (this.dz * 0.5f)) {
+                    inZNext = true;
+                }
+
+                if (inZ && !inX && inXNext) {
+                    if (canStep && player.onGround) {
+                        player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
+                    } else {
+                        if (player.x < this.x) {
+                            player.x = this.x - (this.dx * 0.5f) - player.halfWidth;
+                            player.xVel = 0;
+                        }
+                        if (player.x > this.x) {
+                            player.x = this.x + (this.dx * 0.5f) + player.halfWidth;
+                            player.xVel = 0;
+                        }
+                    }
+                }
+
+                if (inX && !inZ && inZNext) {
+                    if (canStep && player.onGround) {
+                        player.y = this.y + (this.dy * 0.5f) + player.halfHeight + 0.0001f;
+                    } else {
+                        if (player.z < this.z) {
+                            player.z = this.z - (this.dz * 0.5f) - player.halfWidth;
+                            player.zVel = 0;
+                        }
+                        if (player.z > this.z) {
+                            player.z = this.z + (this.dz * 0.5f) + player.halfWidth;
+                            player.zVel = 0;
+                        }
+                    }
+                }
+
+                //bugfix
+                if (!inX && !inZ && inXNext && inZNext) {
+                    if (Math.Abs(player.xVel) > Math.Abs(player.zVel)) {
+                        if (player.z < this.z) {
+                            player.z = this.z - (this.dz * 0.5f) - player.halfWidth;
+                            player.zVel = 0;
+                        }
+                        if (player.z > this.z) {
+                            player.z = this.z + (this.dz * 0.5f) + player.halfWidth;
+                            player.zVel = 0;
+                        }
+                    } else {
+                        if (player.x < this.x) {
+                            player.x = this.x - (this.dx * 0.5f) - player.halfWidth;
+                            player.xVel = 0;
+                        }
+                        if (player.x > this.x) {
+                            player.x = this.x + (this.dx * 0.5f) + player.halfWidth;
+                            player.xVel = 0;
+                        }
+                    }
+                }
+
+            }
         }
-
     }
 
     class zpitoHandler {
@@ -327,15 +415,23 @@ namespace _3d_test {
             }
             player.yVel -= player.gravity * deltaTime;
 
+            if (kstate.IsKeyDown(Keys.Space) && player.onGround) {
+                player.yVel = player.jumpHeight;
+            }
+
+            player.onGround = false;
             for (int b = 0; b < blocks.Count; b++) {
-                blocks[b].collideFloor();
+                blocks[b].collideFloor(player, deltaTime);
             }
 
             for (int b = 0; b < blocks.Count; b++) {
-                blocks[b].collide();
+                blocks[b].collide(player, deltaTime);
             }
 
             player.position += player.velocity * deltaTime;
+
+            player.xVel = MathHelper.LerpPrecise(player.xVel, 0, player.damping);
+            player.zVel = MathHelper.LerpPrecise(player.zVel, 0, player.damping);
 
             // Center the mouse cursor
             Mouse.SetPosition(screenCenter.X, screenCenter.Y);
