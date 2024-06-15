@@ -4,11 +4,37 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/blue_ice.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/brick.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/dark_gray.png</File>
     <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/File.spritefont</File>
     <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/grass.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/gray.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/log.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/orange.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/powder_snow.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/purpur_block.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/reinforceddeepslate.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/sand.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/smoothstone.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/stone.png</File>
+    <File>C:/Users/ralar/Documents/GitHub/badteam/MonoGame/3d test/3d test/Content/water.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File>ArialFont.spritefont</File>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

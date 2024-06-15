@@ -25,3 +25,16 @@ C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\obj\Debug\net6.
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\obj\Debug\net6.0\ref\3d test.dll
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\grass.xnb
 C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\ArialFont.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\stone.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\blue_ice.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\brick.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\dark_gray.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\gray.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\log.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\orange.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\powder_snow.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\purpur_block.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\reinforceddeepslate.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\sand.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\smoothstone.xnb
+C:\Users\ralar\Documents\GitHub\badteam\MonoGame\3d test\3d test\bin\Debug\net6.0\Content\water.xnb

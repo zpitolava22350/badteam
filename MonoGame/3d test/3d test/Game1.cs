@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace _3d_test {
 
@@ -12,89 +13,84 @@ namespace _3d_test {
 
     public class Game1: Game {
 
+        [DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private SpriteBatch spriteBatchText;
         private SpriteFont font;
-        private BasicEffect basicEffect;
-        private zpitoHandler zpitoHandler = new zpitoHandler();
 
+        private zpitoHandler zpitoHandler = new zpitoHandler();
         List<Block> blocks = new List<Block>();
+        Dictionary<string, Texture2D> texDict = new Dictionary<string, Texture2D>();
+        Dictionary<string, BasicEffect> effDict = new Dictionary<string, BasicEffect>();
+        private Player player;
 
         private Random rand = new Random();
 
-        private Texture2D cubeTexture;
-
-        private Player player;
+        private string[] textures = new string[14];
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            AllocConsole();
 
-            //graphics.IsFullScreen = true;
-            //graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //graphics.ApplyChanges();
+            //target framerate
+            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 144.0);
 
             //consistent framerate
             IsFixedTimeStep = true;
 
+            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.ApplyChanges();
+
+            textures[0] = "blue_ice";
+            textures[1] = "brick";
+            textures[2] = "dark_gray";
+            textures[3] = "grass";
+            textures[4] = "gray";
+            textures[5] = "log";
+            textures[6] = "orange";
+            textures[7] = "powder_snow";
+            textures[8] = "purpur_block";
+            textures[9] = "reinforceddeepslate";
+            textures[10] = "sand";
+            textures[11] = "smoothstone";
+            textures[12] = "stone";
+            textures[13] = "water";
+
             player = new Player(new Vector3(0, 5, 0), 50f);
+
+            player.mouseLock = true;
+            IsMouseVisible = !player.mouseLock;
+
+            for(int x = -20; x < 20 ; x++) {
+                for(int y = -20; y < 20 ; y++) {
+                    blocks.Add(new Block(new Vector3(x, -(float)rand.Next(0, 10), y), new Vector3(1, 1, 1), textures[rand.Next(0, 14)], 1));
+                }
+            }
+
         }
 
         protected override void Initialize() {
-
-            TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 144.0);
-
             base.Initialize();
-
             ResourceManager.GraphicsDevice = GraphicsDevice;
-
-            // Hide the mouse cursor
-            IsMouseVisible = false;
-
-            // Create the cube vertices
-
-            blocks.Add(new Block(new Vector3(0, 0, 0), new Vector3(10, 1, 10), 1));
-            blocks.Add(new Block(new Vector3(2, 1, 2), new Vector3(1, 1, 1), 1));
-            blocks.Add(new Block(new Vector3(3, 1, 2), new Vector3(1, 1, 1), 1));
-            blocks.Add(new Block(new Vector3(3, 1, 3), new Vector3(1, 1, 1), 1));
-            blocks.Add(new Block(new Vector3(2, 1, 3), new Vector3(1, 1, 1), 1));
-
-
         }
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteBatchText = new SpriteBatch(GraphicsDevice);
-
-            // Load the texture
-            cubeTexture = Content.Load<Texture2D>("grass");
-
             font = Content.Load<SpriteFont>("ArialFont");
+            
+            for (int b = 0; b < blocks.Count; b++) {if (!texDict.ContainsKey(blocks[b].texture)) {texDict[blocks[b].texture] = Content.Load<Texture2D>(blocks[b].texture);texDict[blocks[b].texture].GraphicsDevice.SamplerStates[0] = new SamplerState { Filter = TextureFilter.Point, AddressU = TextureAddressMode.Wrap, AddressV = TextureAddressMode.Wrap };}};foreach (string key in texDict.Keys) {effDict[key] = new BasicEffect(GraphicsDevice) {TextureEnabled = true,Texture = texDict[key],Projection = Matrix.CreatePerspectiveFieldOfView(player.fieldOfView, GraphicsDevice.Viewport.AspectRatio, 0.1f, 100f)};};
 
-            SamplerState customSamplerState = new SamplerState {
-                Filter = TextureFilter.Point, // Nearest-neighbor interpolation
-                AddressU = TextureAddressMode.Wrap, // Clamp texture horizontally
-                AddressV = TextureAddressMode.Wrap // Clamp texture vertically
-            };
-
-            // Apply the custom SamplerState to the texture
-            cubeTexture.GraphicsDevice.SamplerStates[0] = customSamplerState;
-
-            // Set up the basic effect
-            basicEffect = new BasicEffect(GraphicsDevice) {
-                TextureEnabled = true,
-                Texture = cubeTexture,
-                Projection = Matrix.CreatePerspectiveFieldOfView(player.fieldOfView, GraphicsDevice.Viewport.AspectRatio, 0.1f, 100f)
-            };
-
-            //graphics.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
         protected override void Update(GameTime gameTime) {
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            IsMouseVisible = !player.mouseLock;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -105,29 +101,13 @@ namespace _3d_test {
         }
 
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // Create the rotation matrix from the yaw and pitch
-            Matrix rotationMatrix = Matrix.CreateFromYawPitchRoll(player.r, player.t, 0);
-
-            // Define the camera's look direction and up vector
-            Vector3 lookDirection = Vector3.Transform(Vector3.Forward, rotationMatrix);
-            Vector3 upDirection = Vector3.Transform(Vector3.Up, rotationMatrix);
-
-            // Create the view matrix
-            Matrix viewMatrix = Matrix.CreateLookAt(player.cameraPosition, player.cameraPosition + lookDirection, upDirection);
-
-            // Apply the view matrix to the basic effect
-            basicEffect.View = viewMatrix;
-
-            foreach (var pass in basicEffect.CurrentTechnique.Passes) {
-                pass.Apply();
-                zpitoHandler.renderAll(blocks);
-            }
-
-            spriteBatchText.Begin();
-            spriteBatchText.DrawString(font, player.yMin + "\n" + blocks[0].yMax, new Vector2(10, 10), Color.Black);
-            spriteBatchText.End();
+            zpitoHandler.renderAll(blocks, effDict, player);
+            
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, player.r.ToString(), new Vector2(10, 10), Color.Black);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
