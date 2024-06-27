@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/ralar/Documents/GitHub/badteam/MonoGame/Cave Game Test/Cave Game Test/Content/ArialFont.spritefont","C:/Users/ralar/Documents/GitHub/badteam/MonoGame/Cave Game Test/Cave Game Test/Content/bin/DesktopGL/Content/ArialFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21535,0.1460146
+"C:/Users/ralar/Documents/GitHub/badteam/MonoGame/Cave Game Test/Cave Game Test/Content/stone.png","C:/Users/ralar/Documents/GitHub/badteam/MonoGame/Cave Game Test/Cave Game Test/Content/bin/DesktopGL/Content/stone.xnb","TextureProcessor","Texture2DContent",244,1109,0.0976476

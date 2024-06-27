@@ -20,7 +20,7 @@ namespace PictureBoxTest {
         private Bitmap canvas;
         Random random = new Random();
 
-        const int pixelSize = 1;
+        const int pixelSize = 2;
 
         int mouseX = 0;
         int mouseY = 0;
@@ -78,7 +78,7 @@ namespace PictureBoxTest {
 
                 for (int x = 0; x < canvas.Width; x+=pixelSize) {
                     for(int y = 0; y < canvas.Height; y+=pixelSize) {
-                        pixelColor = (int)Math.Floor(Math.Abs(noise.GetNoise(x-mouseX, y-mouseY)) * 250);
+                        pixelColor = (int)Math.Floor(Math.Abs(noise.GetNoise(x * 2 - mouseX, y * 2 - mouseY)) * 250);
                         g.FillRectangle(new SolidBrush(Color.FromArgb(pixelColor, pixelColor, pixelColor)), x, y, pixelSize, pixelSize); 
                     }
                 }
